@@ -6,7 +6,7 @@ import { jalaaliToDateObject } from "jalaali-js";
 import { faDigits, meta } from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
-/** تاریخ هدف: ۳۰ بهمن ۱۴۰۵ — ساعت ۹ صبح به وقت تهران (UTC+3:30) */
+/** Target date: Bahman 30, 1405 — 09:00 Tehran time (UTC+3:30) */
 const TARGET_DATE = (() => {
   const base = jalaaliToDateObject(1405, 11, 30); // 2027-02-19T00:00:00Z
   return new Date(base.getTime() + 5.5 * 3600 * 1000); // 09:00 Tehran
@@ -32,7 +32,7 @@ export function Countdown({ compact = false }: { compact?: boolean }) {
     return () => clearInterval(id);
   }, []);
 
-  // برای جلوگیری از ناهماهنگی هیدراسیون، تا زمان آماده شدن کلاینت، جای‌نگهدار نمایش می‌دهیم
+  // Render a placeholder until the client is ready, to avoid hydration mismatch
   const r = now ? getRemaining(TARGET_DATE, now) : null;
 
   const cells = [

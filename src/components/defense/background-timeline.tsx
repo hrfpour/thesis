@@ -24,7 +24,7 @@ export function BackgroundSection() {
         <p className="text-sm leading-8 text-foreground sm:text-base sm:leading-9">{background.lead}</p>
       </RevealCard>
 
-      {/* راهنمای نوع پژوهش */}
+      {/* Research type legend */}
       <div className="mb-8 flex flex-wrap items-center gap-4 text-xs">
         {Object.entries(KIND_STYLE).map(([key, v]) => (
           <span key={key} className="flex items-center gap-1.5 text-muted-foreground">
@@ -34,7 +34,7 @@ export function BackgroundSection() {
         ))}
       </div>
 
-      {/* خط زمانی عمودی */}
+      {/* Vertical timeline */}
       <div className="relative mb-12">
         <div
           aria-hidden
@@ -96,10 +96,10 @@ export function BackgroundSection() {
         </div>
       </div>
 
-      {/* شکل ۶ — معماری پیشرفته موج جدید */}
+      {/* Figure 6 — advanced new-wave architecture */}
       <Figure data={fig.architecture} mode="diagram" className="mx-auto mb-12 max-w-4xl" />
 
-      {/* سهم نوآورانه */}
+      {/* Novel contribution */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

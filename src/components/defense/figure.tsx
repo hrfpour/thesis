@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
 import type { FigureDef } from "@/lib/defense-data";
 
 /**
- * شکل شماره‌دار با سبک پایان‌نامه (ایده‌گرفته از فایل نمونه):
- * «شکل n — عنوان» + توضیح کامل + منبع تصویر
+ * Numbered thesis-style figure (modeled after the professor's sample file):
+ * "Figure n — title" + full description + image source
  *
- * mode="photo"   → تصویر تمام‌قد با کپشن روی گرادیان تیره
- * mode="diagram" → شکل علمی (پس‌زمینه سفید) با کپشن زیر تصویر
+ * mode="photo"   → full-bleed image with caption over a dark gradient
+ * mode="diagram" → scientific figure (white background) with caption below
  */
 export function Figure({
   data,

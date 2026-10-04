@@ -30,10 +30,10 @@ export function ProblemSection() {
         <p className="text-base leading-8 text-foreground sm:text-lg sm:leading-9">{problem.lead}</p>
       </RevealCard>
 
-      {/* شکل ۳ — تراکم معابر در ساعات اوج */}
+      {/* Figure 3 — peak-hour congestion */}
       <Figure data={fig.congestion} mode="photo" className="mx-auto mb-12 max-w-3xl" />
 
-      {/* چالش‌های سه‌گانه */}
+      {/* Triple challenges */}
       <div className="mb-12 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {problem.challenges.map((ch, i) => (
           <RevealCard key={ch.title} delay={i * 0.07}>
@@ -48,12 +48,12 @@ export function ProblemSection() {
         ))}
       </div>
 
-      {/* سیر تکامل مدل‌ها */}
+      {/* Evolution of models */}
       <h3 className="mb-2 text-xl font-extrabold text-foreground">{problem.evolutionTitle}</h3>
       <p className="mb-6 max-w-3xl text-sm leading-8 text-muted-foreground">{problem.evolutionLead}</p>
 
       <div className="relative mb-12">
-        {/* خط عمودی تکامل */}
+        {/* Vertical evolution line */}
         <div aria-hidden className="absolute bottom-4 right-[1.35rem] top-4 w-0.5 bg-gradient-to-b from-border via-primary/40 to-accent/60 sm:right-[1.6rem]" />
 
         <div className="flex flex-col gap-6">
@@ -100,7 +100,7 @@ export function ProblemSection() {
         </div>
       </div>
 
-      {/* کاستی بنیادین */}
+      {/* Fundamental shortcoming */}
       <RevealCard className="mb-10 border-destructive/30 bg-destructive/5">
         <h3 className="mb-3 flex items-center gap-2.5 text-xl font-extrabold text-foreground">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-destructive/12 text-destructive">
@@ -132,7 +132,7 @@ export function ProblemSection() {
         </div>
       </RevealCard>
 
-      {/* خلا پژوهشی */}
+      {/* Research gap */}
       <RevealCard className="mb-10">
         <h3 className="mb-3 text-xl font-extrabold text-foreground">{problem.gap.title}</h3>
         <p className="mb-6 text-sm leading-8 text-muted-foreground sm:text-[0.95rem]">{problem.gap.text}</p>
@@ -177,7 +177,7 @@ export function ProblemSection() {
         </div>
       </RevealCard>
 
-      {/* مسئله محوری */}
+      {/* Core problem */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

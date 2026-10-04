@@ -44,7 +44,7 @@ export function SectionHeading({ no, title, en, icon, className }: SectionHeadin
   );
 }
 
-/** ظرف استاندارد بخش‌ها */
+/** Standard section container */
 export function Section({
   id,
   children,
@@ -61,7 +61,7 @@ export function Section({
   );
 }
 
-/** کارت ظریف با انیمیشن ورود */
+/** Delicate card with entrance animation */
 export function RevealCard({
   children,
   delay = 0,
@@ -87,7 +87,7 @@ export function RevealCard({
   );
 }
 
-/** نشان «در حال تکمیل» */
+/** "Work in progress" badge */
 export function WipBadge({ label = "در حال تکمیل" }: { label?: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/50 bg-accent/15 px-2.5 py-0.5 text-[0.68rem] font-bold text-accent-foreground">

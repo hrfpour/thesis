@@ -10,7 +10,7 @@ import { SLIDES } from "@/components/defense/presentation/slides";
 import { faDigits } from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
-/* ── تایمر جلسه ── */
+/* ── Session timer ── */
 function SessionTimer({ startEpoch }: { startEpoch: number }) {
   const [elapsed, setElapsed] = React.useState(0);
 
@@ -49,7 +49,7 @@ export function PresentationOverlay() {
     usePresentation.getState().setSlideCount(total);
   }, [total]);
 
-  // قفل اسکرول بدنه هنگام ارائه
+  // Lock body scroll while presenting
   React.useEffect(() => {
     if (active) {
       const prevOverflow = document.body.style.overflow;
@@ -71,11 +71,11 @@ export function PresentationOverlay() {
         setIsFullscreen(false);
       }
     } catch {
-      /* عدم پشتیبانی مرورگر */
+      /* browser not supported */
     }
   }, []);
 
-  // ناوبری با کیبورد (RTL: فلش چپ = اسلاید بعدی)
+  // Keyboard navigation (RTL: left arrow = next slide)
   React.useEffect(() => {
     if (!active) return;
     const onKey = (e: KeyboardEvent) => {
@@ -137,7 +137,7 @@ export function PresentationOverlay() {
     prev();
   };
 
-  // پشتیبانی لمسی (swipe)
+  // Touch support (swipe)
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0]?.clientX ?? null;
   };
@@ -168,7 +168,7 @@ export function PresentationOverlay() {
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
-          {/* نوار بالا */}
+          {/* Top bar */}
           <header className="flex h-14 shrink-0 items-center justify-between gap-2 border-b bg-background/90 px-3 backdrop-blur-xl sm:px-5">
             <div className="flex min-w-0 items-center gap-2.5">
               {slide.sectionNo && (
@@ -220,9 +220,9 @@ export function PresentationOverlay() {
             </div>
           </header>
 
-          {/* محتوای اسلاید */}
+          {/* Slide content */}
           <main className="relative flex-1 overflow-hidden">
-            {/* تصویر پس‌زمینه ملایم برای اسلاید جلد و اسلاید پایانی */}
+            {/* Subtle background image for the cover and closing slides */}
             {slideIndex === 0 && (
               <>
                 <img
@@ -267,7 +267,7 @@ export function PresentationOverlay() {
               </motion.div>
             </AnimatePresence>
 
-            {/* نمای کلی اسلایدها */}
+            {/* Slides overview */}
             <AnimatePresence>
               {showOverview && (
                 <motion.div
@@ -312,7 +312,7 @@ export function PresentationOverlay() {
             </AnimatePresence>
           </main>
 
-          {/* نوار پایین */}
+          {/* Bottom bar */}
           <footer className="shrink-0 border-t bg-background/90 backdrop-blur-xl">
             <div
               role="progressbar"

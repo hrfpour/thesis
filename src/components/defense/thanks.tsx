@@ -55,7 +55,7 @@ export function ThanksSection() {
         </Button>
       </motion.div>
 
-      {/* تصویر چشم‌انداز */}
+      {/* Vision image */}
       <div className="relative mx-auto mt-12 max-w-4xl px-4 sm:px-6">
         <Figure data={fig.future} mode="photo" delay={0.1} compact />
       </div>

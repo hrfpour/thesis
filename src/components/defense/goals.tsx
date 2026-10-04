@@ -13,7 +13,7 @@ function LucIcon({ name, className }: { name: string; className?: string }) {
   return <Icon className={className ?? "h-5 w-5"} />;
 }
 
-/* ── نمودار معماری پیشنهادی (جریان RTL) ── */
+/* ── Proposed architecture diagram (RTL flow) ── */
 function ArchitectureDiagram() {
   const steps = goals.architecture.steps;
   return (
@@ -68,7 +68,7 @@ export function GoalSection() {
     <Section id={goals.id}>
       <SectionHeading no={goals.no} title={goals.title} en={goals.en} icon={goals.icon} />
 
-      {/* هدف اصلی */}
+      {/* Main objective */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ export function GoalSection() {
         </div>
       </motion.div>
 
-      {/* اهداف فرعی */}
+      {/* Secondary objectives */}
       <h3 className="mb-4 text-xl font-extrabold text-foreground">اهداف فرعی پژوهش</h3>
       <div className="mb-12 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {goals.sub.map((g, i) => (
@@ -112,7 +112,7 @@ export function GoalSection() {
         </RevealCard>
       </div>
 
-      {/* سوالات پژوهش */}
+      {/* Research questions */}
       <RevealCard className="mb-12">
         <h3 className="mb-4 flex items-center gap-2.5 text-xl font-extrabold text-foreground">
           <Icons.CircleHelp className="h-6 w-6 text-primary" />
@@ -145,7 +145,7 @@ export function GoalSection() {
         </div>
       </RevealCard>
 
-      {/* معماری پیشنهادی */}
+      {/* Proposed architecture */}
       <h3 className="mb-2 text-xl font-extrabold text-foreground">{goals.architecture.title}</h3>
       <p className="mb-6 max-w-3xl text-sm leading-8 text-muted-foreground">{goals.architecture.lead}</p>
 
@@ -153,7 +153,7 @@ export function GoalSection() {
         <ArchitectureDiagram />
       </div>
 
-      {/* شکل‌های ۴ و ۵ — بازنمایی گرافی و فرایند مدل‌سازی STGNN */}
+      {/* Figures 4 & 5 — graph representation and STGNN modeling pipeline */}
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Figure data={fig.graph} mode="diagram" />
         <Figure data={fig.stgnn} mode="diagram" delay={0.08} />
@@ -167,7 +167,7 @@ export function GoalSection() {
         </div>
       </div>
 
-      {/* معیارهای ارزیابی */}
+      {/* Evaluation metrics */}
       <h3 className="mb-2 text-xl font-extrabold text-foreground">{goals.metrics.title}</h3>
       <p className="mb-6 text-sm leading-8 text-muted-foreground">{goals.metrics.lead}</p>
 

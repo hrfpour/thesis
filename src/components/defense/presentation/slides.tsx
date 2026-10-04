@@ -7,7 +7,7 @@ import { WipBadge } from "@/components/defense/section-heading";
 import { meta, toc, problem, goals, background, chapters, references, intro, fig } from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
-/* ────────── ابزارهای مشترک اسلاید ────────── */
+/* ────────── Shared slide utilities ────────── */
 
 function LucIcon({ name, className }: { name: string; className?: string }) {
   const Icon = (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[name] ??
@@ -51,7 +51,7 @@ function SlideCard({
   );
 }
 
-/** نشان کوچک عنوانی داخل کارت */
+/** Small title badge used inside cards */
 function Chip({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <span
@@ -72,10 +72,10 @@ export type SlideDef = {
   render: () => React.ReactNode;
 };
 
-/* ────────── تعریف ۲۴ اسلاید با محتوای کامل ────────── */
+/* ────────── 24 fully-detailed slides ────────── */
 
 export const SLIDES: SlideDef[] = [
-  /* ۱ — جلد */
+  /* 1 — Cover */
   {
     section: "جلد",
     sectionNo: "",
@@ -113,7 +113,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۲ — فهرست مطالب */
+  /* 2 — Table of contents */
   {
     section: "فهرست مطالب",
     sectionNo: "",
@@ -136,7 +136,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۳ — مقدمه: اهمیت پیش‌بینی ترافیک */
+  /* 3 — Intro: importance of traffic forecasting */
   {
     section: "مقدمه",
     sectionNo: "۰۱",
@@ -166,7 +166,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۴ — نگاهی تصویری به مسئله و کاربرد */
+  /* 4 — Visual look at the problem and application */
   {
     section: "مقدمه",
     sectionNo: "۰۱",
@@ -195,7 +195,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۵ — مقدمه: ماهیت داده‌های ترافیک */
+  /* 5 — Intro: nature of traffic data */
   {
     section: "مقدمه",
     sectionNo: "۰۱",
@@ -221,7 +221,7 @@ export const SLIDES: SlideDef[] = [
           ))}
         </div>
 
-        {/* شکل ۴ — بازنمایی گرافی شبکه معابر */}
+        {/* Figure 4 — graph representation of the road network */}
         <figure className="mt-2.5 overflow-hidden rounded-xl border bg-card/70">
           <div className="flex items-center justify-center bg-white p-2">
             <img src={fig.graph.src} alt={fig.graph.alt} className="h-40 w-full object-contain sm:h-48" />
@@ -237,7 +237,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۶ — مقدمه: مفاهیم کلیدی (تعاریف کامل) */
+  /* 6 — Intro: key concepts (full definitions) */
   {
     section: "مقدمه",
     sectionNo: "۰۱",
@@ -265,7 +265,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۷ — بیان مسئله: چالش‌ها */
+  /* 7 — Problem statement: challenges */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
@@ -293,7 +293,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۸ — نسل اول */
+  /* 8 — First generation */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
@@ -323,7 +323,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۹ — نسل دوم */
+  /* 9 — Second generation */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
@@ -351,7 +351,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۰ — نسل سوم */
+  /* 10 — Third generation */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
@@ -379,7 +379,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۱ — نسل چهارم */
+  /* 11 — Fourth generation */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
@@ -407,7 +407,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۲ — کاستی بنیادین */
+  /* 12 — Fundamental shortcoming */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
@@ -431,7 +431,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۳ — خلأ پژوهشی و مسئله محوری */
+  /* 13 — Research gap & core problem */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
@@ -478,7 +478,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۴ — هدف اصلی و اهداف فرعی (متن کامل) */
+  /* 14 — Main & secondary objectives (full text) */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
@@ -507,7 +507,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۵ — سؤالات پژوهش */
+  /* 15 — Research questions */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
@@ -533,7 +533,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۶ — معماری پیشنهادی ۱: داده و ماژول فضایی-زمانی */
+  /* 16 — Proposed architecture 1: data & spatio-temporal module */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
@@ -565,7 +565,7 @@ export const SLIDES: SlideDef[] = [
           ))}
         </div>
 
-        {/* شکل ۵ — فرایند گردآوری داده و مدل‌سازی STGNN */}
+        {/* Figure 5 — data collection & STGNN modeling pipeline */}
         <figure className="mt-2.5 overflow-hidden rounded-xl border bg-card/70">
           <div className="flex items-center justify-center bg-white p-2">
             <img src={fig.stgnn.src} alt={fig.stgnn.alt} className="h-40 w-full object-contain sm:h-48" />
@@ -581,7 +581,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۷ — معماری پیشنهادی ۲: لایه بیزی و خروجی احتمالاتی */
+  /* 17 — Proposed architecture 2: Bayesian layer & probabilistic output */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
@@ -619,7 +619,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۸ — معیارهای ارزیابی (کامل) */
+  /* 18 — Evaluation metrics (full) */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
@@ -688,7 +688,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۱۹ — پیشینه ۱: از آمار کلاسیک تا یادگیری عمیق */
+  /* 19 — Background 1: from classical statistics to deep learning */
   {
     section: "پیشینه پژوهش",
     sectionNo: "۰۴",
@@ -730,7 +730,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۲۰ — پیشینه ۲: عصر گراف و رویکرد بیزی + جمع‌بندی */
+  /* 20 — Background 2: graph era & Bayesian approach + summary */
   {
     section: "پیشینه پژوهش",
     sectionNo: "۰۴",
@@ -776,7 +776,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۲۱ — فصل‌بندی (با محتوای فصل‌ها) */
+  /* 21 — Chapter outline (with chapter contents) */
   {
     section: "فصل‌بندی",
     sectionNo: "۰۵",
@@ -831,7 +831,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۲۲ — نقشه راه اجرا */
+  /* 22 — Execution roadmap */
   {
     section: "فصل‌بندی",
     sectionNo: "۰۵",
@@ -880,7 +880,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۲۳ — مراجع */
+  /* 23 — References */
   {
     section: "مراجع",
     sectionNo: "۰۶",
@@ -908,7 +908,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* ۲۴ — تشکر */
+  /* 24 — Thanks */
   {
     section: "پایان",
     sectionNo: "",

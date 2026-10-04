@@ -11,7 +11,7 @@ export function ThemeToggle({ className }: { className?: string }) {
 
   React.useEffect(() => setMounted(true), []);
 
-  // پیش از mount مقدار ثابت (سازگار با SSR)؛ پس از mount بر اساس تم واقعی
+  // Fixed value before mount (SSR-safe); real theme after mount
   const isDark = mounted ? resolvedTheme === "dark" : false;
 
   return (

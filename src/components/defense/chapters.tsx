@@ -17,7 +17,7 @@ export function ChaptersSection() {
         <p className="text-sm leading-8 text-foreground sm:text-base sm:leading-9">{chapters.lead}</p>
       </RevealCard>
 
-      {/* فصل‌های چهارگانه */}
+      {/* Four chapters */}
       <div className="mb-14 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {chapters.items.map((ch, i) => (
           <motion.div
@@ -71,7 +71,7 @@ export function ChaptersSection() {
         ))}
       </div>
 
-      {/* نقشه راه */}
+      {/* Roadmap */}
       <h3 className="mb-2 flex items-center gap-2.5 text-xl font-extrabold text-foreground">
         <Map className="h-6 w-6 text-primary" />
         {chapters.roadmap.title}
@@ -79,7 +79,7 @@ export function ChaptersSection() {
       <p className="mb-5 text-xs leading-6 text-muted-foreground">{chapters.roadmap.note}</p>
 
       <div className="relative">
-        {/* خط افقی نقشه راه */}
+        {/* Roadmap horizontal line */}
         <div
           aria-hidden
           className="absolute right-0 top-[2.125rem] hidden h-0.5 w-full bg-gradient-to-l from-muted-foreground/30 via-primary/50 to-accent lg:block"

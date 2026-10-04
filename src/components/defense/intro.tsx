@@ -21,7 +21,7 @@ export function IntroSection() {
         <p className="text-base leading-8 text-foreground sm:text-lg sm:leading-9">{intro.lead}</p>
       </RevealCard>
 
-      {/* اهمیت پیش‌بینی ترافیک */}
+      {/* Importance of traffic forecasting */}
       <RevealCard className="mb-8">
         <h3 className="mb-3 flex items-center gap-2 text-lg font-bold text-foreground">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/12 text-primary">
@@ -47,13 +47,13 @@ export function IntroSection() {
         </div>
       </RevealCard>
 
-      {/* تصاویر موضوعی: جریان ترافیک و مرکز پایش */}
+      {/* Thematic images: traffic flow and control center */}
       <div className="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Figure data={fig.night} mode="photo" />
         <Figure data={fig.control} mode="photo" delay={0.08} />
       </div>
 
-      {/* ماهیت داده‌های ترافیک */}
+      {/* Nature of traffic data */}
       <RevealCard className="mb-10">
         <h3 className="mb-3 flex items-center gap-2 text-lg font-bold text-foreground">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/12 text-primary">
@@ -77,7 +77,7 @@ export function IntroSection() {
         </div>
       </RevealCard>
 
-      {/* مفاهیم کلیدی */}
+      {/* Key concepts */}
       <h3 className="mb-4 text-lg font-bold text-foreground">{intro.concepts.title}</h3>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {intro.concepts.items.map((c, i) => (

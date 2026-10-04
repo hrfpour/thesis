@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-// برای سازگاری با خروجی استاتیک (GitHub Pages)
+// Force static rendering for static export compatibility (GitHub Pages)
 export const dynamic = "force-static";
 
 export async function GET() {

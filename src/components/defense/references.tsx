@@ -41,7 +41,7 @@ export function ReferencesSection() {
     <Section id={references.id} className="bg-muted/30">
       <SectionHeading no={references.no} title={references.title} en={references.en} icon={references.icon} />
 
-      {/* مرجع اصلی */}
+      {/* Primary reference */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +62,7 @@ export function ReferencesSection() {
         ))}
       </motion.div>
 
-      {/* مراجع فرعی */}
+      {/* Secondary references */}
       <h3 className="mb-4 flex items-center gap-2.5 text-lg font-extrabold text-foreground">
         <FileText className="h-5 w-5 text-primary" />
         {references.secondary.label}

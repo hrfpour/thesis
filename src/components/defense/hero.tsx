@@ -9,7 +9,7 @@ import { Countdown } from "@/components/defense/countdown";
 import { usePresentation } from "@/components/defense/presentation-store";
 import { meta } from "@/lib/defense-data";
 
-/* پس‌زمینه: شبکه گراف نمادین (GNN) */
+/* Background: symbolic graph network (GNN) */
 function GraphBackdrop() {
   const nodes = [
     { x: 8, y: 22 }, { x: 22, y: 10 }, { x: 36, y: 30 }, { x: 18, y: 48 },
