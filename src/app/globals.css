@@ -220,3 +220,41 @@
 kbd {
   font-family: var(--font-mono);
 }
+
+/* ─── فرمول‌های ریاضی (KaTeX) ─── */
+/* Display equations: remove default vertical margins (spacing handled by cards) */
+.math-formula .katex-display {
+  margin: 0;
+}
+.math-formula .katex-display > .katex {
+  white-space: nowrap;
+}
+/* Keep math readable on light & dark themes */
+.math-formula .katex {
+  text-rendering: auto;
+}
+/* Slightly tighter math line-height inside compact slide cards */
+.math-formula-compact .katex-display .katex-html {
+  line-height: 1.1;
+}
+
+/* ─── صحنهٔ خروجی (export stage) ───
+   Hidden fixed-size stage used to rasterize slides for PDF/PPTX export.
+   Animations & backdrop effects are frozen so html-to-image captures
+   the final visual state (elements mid-animation would be invisible). */
+.export-stage,
+.export-stage *,
+.export-stage *::before,
+.export-stage *::after {
+  animation: none !important;
+  transition: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.export-stage {
+  direction: rtl;
+}
+/* Slide-image cover backgrounds must be opaque enough after disabling blur */
+.export-stage .export-slide-bg {
+  background-color: var(--background);
+}

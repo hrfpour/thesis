@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/defense/theme-toggle";
 import { usePresentation } from "@/components/defense/presentation-store";
 import { SLIDES } from "@/components/defense/presentation/slides";
+import { PresentationExport } from "@/components/defense/presentation/presentation-export";
 import { faDigits } from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
@@ -184,6 +185,7 @@ export function PresentationOverlay() {
               <span className="tabular-nums-fa text-sm font-black text-muted-foreground" dir="rtl">
                 {faDigits(slideIndex + 1)} / {faDigits(total)}
               </span>
+              <PresentationExport />
               <Button
                 variant="ghost"
                 size="icon"

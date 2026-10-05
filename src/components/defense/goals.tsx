@@ -5,7 +5,9 @@ import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
 import { Section, SectionHeading, RevealCard, WipBadge } from "@/components/defense/section-heading";
 import { Figure } from "@/components/defense/figure";
-import { goals, fig } from "@/lib/defense-data";
+import { Tex, FormulaCard } from "@/components/defense/math";
+import { goals, fig, mathFramework } from "@/lib/defense-data";
+import { cn } from "@/lib/utils";
 
 function LucIcon({ name, className }: { name: string; className?: string }) {
   const Icon = (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[name] ??
@@ -167,6 +169,64 @@ export function GoalSection() {
         </div>
       </div>
 
+      {/* Mathematical formulation of the proposed framework */}
+      <h3 className="mb-2 flex flex-wrap items-baseline gap-2 text-xl font-extrabold text-foreground">
+        <span>{mathFramework.title}</span>
+        <span dir="ltr" className="ltr text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          {mathFramework.en}
+        </span>
+      </h3>
+      <p className="mb-6 max-w-3xl text-sm leading-8 text-muted-foreground">{mathFramework.lead}</p>
+
+      <div className="mb-12 flex flex-col gap-8">
+        {mathFramework.groups.map((g, gi) => (
+          <div key={g.id}>
+            <motion.h4
+              initial={{ opacity: 0, x: 16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4 }}
+              className="mb-3 flex items-center gap-2 text-base font-black text-primary"
+            >
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/12">
+                <Icons.Sigma className="h-4 w-4" />
+              </span>
+              {g.title}
+            </motion.h4>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {g.items.map((f, fi) => (
+                <FormulaCard
+                  key={f.id}
+                  label={f.label}
+                  tex={f.tex}
+                  desc={f.desc}
+                  className={cn(
+                    "animate-in fade-in slide-in-from-bottom-2",
+                    g.items.length % 2 !== 0 && fi === g.items.length - 1 && "sm:col-span-2"
+                  )}
+                />
+              ))}
+            </div>
+            {gi === 2 && (
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="mt-3"
+              >
+                <FormulaCard
+                  label={mathFramework.transition.label}
+                  tex={mathFramework.transition.tex}
+                  desc={mathFramework.transition.desc}
+                  className="border-primary/40 bg-gradient-to-bl from-primary/10 to-accent/8"
+                />
+              </motion.div>
+            )}
+          </div>
+        ))}
+      </div>
+
       {/* Evaluation metrics */}
       <h3 className="mb-2 text-xl font-extrabold text-foreground">{goals.metrics.title}</h3>
       <p className="mb-6 text-sm leading-8 text-muted-foreground">{goals.metrics.lead}</p>
@@ -179,9 +239,12 @@ export function GoalSection() {
           </h4>
           <div className="flex flex-col gap-2">
             {goals.metrics.accuracy.items.map((m) => (
-              <div key={m.name} className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2">
-                <span dir="ltr" className="ltr text-sm font-black text-primary">{m.name}</span>
-                <span className="text-xs text-muted-foreground">{m.desc}</span>
+              <div key={m.name} className="rounded-lg bg-muted/50 px-3 py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span dir="ltr" className="ltr text-sm font-black text-primary">{m.name}</span>
+                  <span className="text-xs text-muted-foreground">{m.desc}</span>
+                </div>
+                <Tex tex={m.tex} className="mt-1.5 text-[0.8rem]" />
               </div>
             ))}
           </div>
@@ -194,9 +257,12 @@ export function GoalSection() {
           </h4>
           <div className="flex flex-col gap-2">
             {goals.metrics.reliability.items.map((m) => (
-              <div key={m.name} className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2">
-                <span dir="ltr" className="ltr text-sm font-black text-accent-foreground">{m.name}</span>
-                <span className="text-xs text-muted-foreground">{m.desc}</span>
+              <div key={m.name} className="rounded-lg bg-muted/50 px-3 py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span dir="ltr" className="ltr text-sm font-black text-accent-foreground">{m.name}</span>
+                  <span className="text-xs text-muted-foreground">{m.desc}</span>
+                </div>
+                <Tex tex={m.tex} className="mt-1.5 text-[0.8rem]" />
               </div>
             ))}
           </div>

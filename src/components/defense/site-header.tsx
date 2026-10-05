@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/defense/theme-toggle";
 import { usePresentation } from "@/components/defense/presentation-store";
+import { PresentationExport } from "@/components/defense/presentation/presentation-export";
 import { toc } from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
@@ -85,6 +86,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-1.5">
           <ThemeToggle />
+          <PresentationExport variant="labeled" />
           <Button
             size="sm"
             onClick={() => startPresentation(0)}

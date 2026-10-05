@@ -4,7 +4,19 @@ import * as React from "react";
 import * as Icons from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { WipBadge } from "@/components/defense/section-heading";
-import { meta, toc, problem, goals, background, chapters, references, intro, fig } from "@/lib/defense-data";
+import { Tex } from "@/components/defense/math";
+import {
+  meta,
+  toc,
+  problem,
+  goals,
+  background,
+  chapters,
+  references,
+  intro,
+  fig,
+  mathFramework,
+} from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
 /* ────────── Shared slide utilities ────────── */
@@ -72,7 +84,7 @@ export type SlideDef = {
   render: () => React.ReactNode;
 };
 
-/* ────────── 24 fully-detailed slides ────────── */
+/* ────────── 27 fully-detailed slides ────────── */
 
 export const SLIDES: SlideDef[] = [
   /* 1 — Cover */
@@ -427,6 +439,16 @@ export const SLIDES: SlideDef[] = [
             </SlideCard>
           ))}
         </div>
+
+        {/* Deterministic → probabilistic transition formula */}
+        <SlideCard className="mt-2.5 border-primary/30 bg-primary/5">
+          <p className="mb-1.5 text-[0.68rem] font-black text-primary">{mathFramework.transition.label}</p>
+          <Tex
+            tex={mathFramework.transition.tex}
+            className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1.5 text-[0.72rem]"
+          />
+          <p className="mt-1.5 text-[0.62rem] leading-4 text-muted-foreground">{mathFramework.transition.desc}</p>
+        </SlideCard>
       </div>
     ),
   },
@@ -619,7 +641,93 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 18 — Evaluation metrics (full) */
+  /* 18 — Mathematical formulation 1: graph problem & spatio-temporal module */
+  {
+    section: "هدف پژوهش",
+    sectionNo: "۰۳",
+    title: "فرمول‌بندی ریاضی (۱)",
+    render: () => (
+      <div>
+        <SlideTitle sub="Mathematical Formulation 1/3">فرمول‌بندی ریاضی — مسئله‌بندی و ماژول فضایی-زمانی</SlideTitle>
+        <div className="flex flex-col gap-2">
+          {[...mathFramework.groups[0].items, ...mathFramework.groups[1].items].map((f) => (
+            <SlideCard key={f.id} className="flex flex-col gap-1 p-2.5">
+              <p className="text-[0.68rem] font-black text-primary">{f.label}</p>
+              <Tex
+                tex={f.tex}
+                className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1.5 text-[0.74rem]"
+              />
+              {f.desc && <p className="text-[0.62rem] leading-4 text-muted-foreground">{f.desc}</p>}
+            </SlideCard>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+
+  /* 19 — Mathematical formulation 2: Bayesian inference & uncertainty */
+  {
+    section: "هدف پژوهش",
+    sectionNo: "۰۳",
+    title: "فرمول‌بندی ریاضی (۲)",
+    render: () => (
+      <div>
+        <SlideTitle sub="Mathematical Formulation 2/3">فرمول‌بندی ریاضی — استنباط بیزی و کمّی‌سازی عدم قطعیت</SlideTitle>
+        <div className="flex flex-col gap-1.5">
+          {mathFramework.groups[2].items.map((f) => (
+            <SlideCard key={f.id} className="flex flex-col gap-1 p-2">
+              <p className="text-[0.66rem] font-black text-primary">{f.label}</p>
+              <Tex
+                tex={f.tex}
+                className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1 text-[0.7rem]"
+              />
+              {f.desc && <p className="text-[0.6rem] leading-4 text-muted-foreground">{f.desc}</p>}
+            </SlideCard>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+
+  /* 20 — Mathematical formulation 3: probabilistic output & metric equations */
+  {
+    section: "هدف پژوهش",
+    sectionNo: "۰۳",
+    title: "فرمول‌بندی ریاضی (۳)",
+    render: () => (
+      <div>
+        <SlideTitle sub="Mathematical Formulation 3/3">فرمول‌بندی ریاضی — خروجی احتمالاتی و معیارها</SlideTitle>
+        <div className="flex flex-col gap-2">
+          {mathFramework.groups[3].items.map((f) => (
+            <SlideCard key={f.id} className="flex flex-col gap-1 p-2.5">
+              <p className="text-[0.68rem] font-black text-primary">{f.label}</p>
+              <Tex
+                tex={f.tex}
+                className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1.5 text-[0.74rem]"
+              />
+              {f.desc && <p className="text-[0.62rem] leading-4 text-muted-foreground">{f.desc}</p>}
+            </SlideCard>
+          ))}
+        </div>
+        <p className="mb-1.5 mt-2.5 text-[0.7rem] font-black text-muted-foreground">فرمول معیارهای ارزیابی:</p>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {[...goals.metrics.accuracy.items, ...goals.metrics.reliability.items].map((m) => (
+            <SlideCard key={m.name} className="flex flex-col gap-1 p-2.5">
+              <div className="flex items-center justify-between gap-2">
+                <span dir="ltr" className="ltr rounded-md bg-primary/12 px-2 py-0.5 text-[0.64rem] font-black text-primary">
+                  {m.name}
+                </span>
+                <span className="text-[0.62rem] font-semibold text-muted-foreground">{m.desc}</span>
+              </div>
+              <Tex tex={m.tex} className="math-formula-compact rounded-lg bg-muted/45 px-2 py-1 text-[0.66rem]" />
+            </SlideCard>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+
+  /* 21 — Evaluation metrics (full) */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
@@ -688,7 +796,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 19 — Background 1: from classical statistics to deep learning */
+  /* 22 — Background 1: from classical statistics to deep learning */
   {
     section: "پیشینه پژوهش",
     sectionNo: "۰۴",
@@ -730,7 +838,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 20 — Background 2: graph era & Bayesian approach + summary */
+  /* 23 — Background 2: graph era & Bayesian approach + summary */
   {
     section: "پیشینه پژوهش",
     sectionNo: "۰۴",
@@ -776,7 +884,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 21 — Chapter outline (with chapter contents) */
+  /* 24 — Chapter outline (with chapter contents) */
   {
     section: "فصل‌بندی",
     sectionNo: "۰۵",
@@ -831,7 +939,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 22 — Execution roadmap */
+  /* 25 — Execution roadmap */
   {
     section: "فصل‌بندی",
     sectionNo: "۰۵",
@@ -880,7 +988,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 23 — References */
+  /* 26 — References */
   {
     section: "مراجع",
     sectionNo: "۰۶",
@@ -908,7 +1016,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 24 — Thanks */
+  /* 27 — Thanks */
   {
     section: "پایان",
     sectionNo: "",

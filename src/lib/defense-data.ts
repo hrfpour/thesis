@@ -314,7 +314,7 @@ export const goals = {
   architecture: {
     title: "معماری پیشنهادی پژوهش",
     lead: "معماری عصبی عمیق یکپارچه برای پردازش همزمان ویژگی‌های مکانی و زمانی با رویکرد احتمالاتی بیزی طراحی و پیاده‌سازی می‌شود. این معماری شامل مؤلفه‌های زیر است:",
-    wipNote: "فرمول‌بندی دقیق ریاضی معماری (توزیع‌های پیشین، کران پایین شواهد و…) طی نگارش پایان‌نامه تکمیل می‌شود.",
+    wipNote: "فرمول‌بندی پایهٔ معماری (ماتریس مجاورت، گراف-پیچش، توزیع‌های پیشین، کران پایین شواهد و…) در بخش «فرمول‌بندی ریاضی» همین صفحه و اسلایدهای ارائه آمده است؛ جزئیات تکمیلی طی نگارش فصل سوم تکمیل می‌شود.",
     steps: [
       {
         title: "داده و پیش‌پردازش",
@@ -348,20 +348,40 @@ export const goals = {
   },
   metrics: {
     title: "معیارهای ارزیابی",
-    lead: "معیارهای ارزیابی در این پژوهش دو جنبه مکمل را پوشش خواهند داد:",
+    lead: "معیارهای ارزیابی در این پژوهش دو جنبه مکمل را پوشش خواهند داد: دقت نقطه‌ای پیش‌بینی و اعتبار بازه‌های اطمینانی:",
     accuracy: {
       title: "معیارهای دقت پیش‌بینی",
       items: [
-        { name: "MAE", desc: "میانگین قدر مطلق خطا" },
-        { name: "RMSE", desc: "ریشه میانگین مربعات خطا" },
-        { name: "MAPE", desc: "میانگین درصدی قدر مطلق خطا" },
+        {
+          name: "MAE",
+          desc: "میانگین قدر مطلق خطا",
+          tex: "\\mathrm{MAE}=\\dfrac{1}{N}\\sum_{i=1}^{N}\\left|y_{i}-\\hat{y}_{i}\\right|",
+        },
+        {
+          name: "RMSE",
+          desc: "ریشه میانگین مربعات خطا",
+          tex: "\\mathrm{RMSE}=\\sqrt{\\dfrac{1}{N}\\sum_{i=1}^{N}\\left(y_{i}-\\hat{y}_{i}\\right)^{2}}",
+        },
+        {
+          name: "MAPE",
+          desc: "میانگین درصدی قدر مطلق خطا",
+          tex: "\\mathrm{MAPE}=\\dfrac{100}{N}\\sum_{i=1}^{N}\\left|\\dfrac{y_{i}-\\hat{y}_{i}}{y_{i}}\\right|",
+        },
       ],
     },
     reliability: {
       title: "معیارهای قابلیت اطمینان",
       items: [
-        { name: "PICP", desc: "احتمال پوشش بازه پیش‌بینی" },
-        { name: "MPIW", desc: "میانگین عرض بازه پیش‌بینی" },
+        {
+          name: "PICP",
+          desc: "احتمال پوشش بازه پیش‌بینی",
+          tex: "\\mathrm{PICP}=\\dfrac{1}{N}\\sum_{i=1}^{N}\\mathbf{1}\\!\\left[\\hat{L}_{i}\\le y_{i}\\le\\hat{U}_{i}\\right]\\;\\ge\\;1-\\alpha",
+        },
+        {
+          name: "MPIW",
+          desc: "میانگین عرض بازه پیش‌بینی",
+          tex: "\\mathrm{MPIW}=\\dfrac{1}{N}\\sum_{i=1}^{N}\\left(\\hat{U}_{i}-\\hat{L}_{i}\\right)\\;\\rightarrow\\;\\min",
+        },
       ],
     },
     validation: {
@@ -613,6 +633,126 @@ export const references = {
   },
 };
 
+/* ─────────────────────── Mathematical formulation ───────────────────────
+   LaTeX sources rendered with KaTeX (client-side). Math notation is
+   standard Latin LaTeX; labels/descriptions are Persian — the usual
+   style of Persian statistics theses. */
+export type FormulaDef = {
+  id: string;
+  label: string;
+  tex: string;
+  desc?: string;
+};
+
+export const mathFramework = {
+  title: "فرمول‌بندی ریاضی چارچوب پیشنهادی",
+  en: "Mathematical Formulation",
+  lead: "هستهٔ نظری پژوهش در چهار بلوک فرمول‌بندی می‌شود؛ از بازنمایی گرافی شبکهٔ معابر و عملگرهای فضایی-زمانی، تا توزیع پسین وزن‌ها، برآورد عدم قطعیت و اعتبارسنجی بازه‌های پیش‌بینی. این فرمول‌ها ستون‌فقرات فصل سوم پایان‌نامه را تشکیل می‌دهند.",
+  transition: {
+    label: "گذار از خروجی قطعی به خروجی احتمالاتی",
+    tex: "\\underbrace{\\hat{y}=f_{\\theta}(\\boldsymbol{x})}_{\\text{deterministic}}\\quad\\Longrightarrow\\quad\\underbrace{p\\!\\left(y\\mid\\boldsymbol{x},\\mathcal{D}\\right)=\\mathcal{N}\\!\\left(\\hat{\\mu},\\,\\hat{\\sigma}^{2}\\right)}_{\\text{probabilistic}}",
+    desc: "جوهرهٔ رویکرد بیزی: به‌جای یک عدد قطعی، توزیع کامل احتمال خروجی — همراه با میانگین و واریانس — ارائه می‌شود.",
+  },
+  groups: [
+    {
+      id: "problem",
+      title: "۱) مسئله‌بندی روی گراف",
+      items: [
+        {
+          id: "adj",
+          label: "ماتریس مجاورت وزن‌دار (هستهٔ گاوسی)",
+          tex: "\\boldsymbol{A}_{ij}=\\begin{cases}\\exp\\!\\left(-\\dfrac{d_{ij}^{2}}{\\sigma^{2}}\\right), & d_{ij}\\le\\kappa\\\\[2pt] 0, & \\text{otherwise}\\end{cases}",
+          desc: "d_ij فاصلهٔ جاده‌ای سنسورهای i و j است؛ σ پهنای هسته و κ آستانهٔ همسایگی. وزن یال‌ها شدت تعامل مکانی جاده‌ها را رمزگذاری می‌کند.",
+        },
+        {
+          id: "task",
+          label: "وظیفهٔ پیش‌بینی فضایی-زمانی",
+          tex: "\\hat{\\boldsymbol{Y}}_{(t+1):(t+T)}=f_{\\theta}\\!\\left(\\boldsymbol{X}_{(t-T'+1):t},\\ \\mathcal{G}\\right),\\qquad \\mathcal{G}=(\\mathcal{V},\\mathcal{E},\\boldsymbol{A})",
+          desc: "بر پایهٔ T′ گام گذشتهٔ N سنسور، وضعیت T گام آینده برآورد می‌شود (رگرسیون سری زمانی فضایی-زمانی روی گراف).",
+        },
+      ],
+    },
+    {
+      id: "st",
+      title: "۲) ماژول فضایی-زمانی",
+      items: [
+        {
+          id: "gcn",
+          label: "لایهٔ گراف-پیچشی (GCN)",
+          tex: "\\boldsymbol{H}^{(\\ell+1)}=\\sigma\\!\\left(\\tilde{\\boldsymbol{D}}^{-\\tfrac{1}{2}}\\tilde{\\boldsymbol{A}}\\tilde{\\boldsymbol{D}}^{-\\tfrac{1}{2}}\\boldsymbol{H}^{(\\ell)}\\boldsymbol{W}^{(\\ell)}\\right),\\qquad\\tilde{\\boldsymbol{A}}=\\boldsymbol{A}+\\boldsymbol{I}_N",
+          desc: "هموارسازی پیام‌رسانی روی گراف: با افزودن خود-حلقه به مجاورت و نرمال‌سازی ماتریس درجه، ویژگی هر گره با همسایه‌هایش ترکیب می‌شود.",
+        },
+        {
+          id: "dcrnn",
+          label: "پیچش پخشی دوطرفه (DCRNN)",
+          tex: "\\boldsymbol{X}'_{:,\\,p}=\\sum_{q}\\sum_{k=0}^{K-1}\\left[\\theta_{k,1}\\left(\\boldsymbol{D}_{O}^{-1}\\boldsymbol{A}\\right)^{k}+\\theta_{k,2}\\left(\\boldsymbol{D}_{I}^{-1}\\boldsymbol{A}^{\\top}\\right)^{k}\\right]\\boldsymbol{X}_{:,\\,q}",
+          desc: "مدل‌سازی پخش ترافیک در جهت رفت (ماتریس خروجی O) و برگشت (ماتریس ورودی I) شبکهٔ معابر.",
+        },
+        {
+          id: "glu",
+          label: "واحد زمانی گیت‌دار (TCN با GLU)",
+          tex: "\\boldsymbol{\\Gamma}\\star\\boldsymbol{X}=\\left(\\boldsymbol{\\Gamma}_{1}\\star\\boldsymbol{X}\\right)\\odot\\sigma\\!\\left(\\boldsymbol{\\Gamma}_{2}\\star\\boldsymbol{X}\\right)",
+          desc: "گیت سیگموئیدی، عبور اطلاعات زمانیِ مرتبط را کنترل می‌کند (⊙ ضرب هادامارد).",
+        },
+      ],
+    },
+    {
+      id: "bayes",
+      title: "۳) استنباط بیزی و کمّی‌سازی عدم قطعیت",
+      items: [
+        {
+          id: "bayes",
+          label: "قاعدهٔ بیز — توزیع پسین وزن‌ها",
+          tex: "p(\\boldsymbol{w}\\mid\\mathcal{D})=\\dfrac{p(\\mathcal{D}\\mid\\boldsymbol{w})\\,p(\\boldsymbol{w})}{p(\\mathcal{D})}\\;\\propto\\;p(\\mathcal{D}\\mid\\boldsymbol{w})\\,p(\\boldsymbol{w})",
+          desc: "وزن‌های شبکه به‌جای مقدار قطعی، متغیر تصادفی‌اند؛ توزیع پیشین p(w) دانشِ پیش از داده را رمزگذاری می‌کند.",
+        },
+        {
+          id: "pred",
+          label: "پیش‌بینی پسین (Posterior Predictive)",
+          tex: "p(y^{*}\\mid\\boldsymbol{x}^{*},\\mathcal{D})=\\int p(y^{*}\\mid\\boldsymbol{x}^{*},\\boldsymbol{w})\\,p(\\boldsymbol{w}\\mid\\mathcal{D})\\,d\\boldsymbol{w}",
+          desc: "انتگرال روی کل فضای وزن‌ها تحلیل‌ناپذیر است؛ باید با توزیع تقریبی (استنباط تقریبی) جایگزین شود.",
+        },
+        {
+          id: "elbo",
+          label: "کران پایین شواهد (ELBO) — استنباط تغییراتی",
+          tex: "\\mathcal{L}_{\\mathrm{ELBO}}(\\phi)=\\mathbb{E}_{q_{\\phi}(\\boldsymbol{w})}\\!\\left[\\log p(\\mathcal{D}\\mid\\boldsymbol{w})\\right]-\\mathrm{KL}\\!\\left(q_{\\phi}(\\boldsymbol{w})\\,\\|\\,p(\\boldsymbol{w})\\right)",
+          desc: "حداکثرسازی هم‌زمانِ برازش داده و نزدیکی به توزیع پیشین — منظم‌سازی ذاتی در برابر بیش‌برازش.",
+        },
+        {
+          id: "mc",
+          label: "تقریب مونت‌کارلو با Dropout (MC Dropout)",
+          tex: "p(y^{*}\\mid\\boldsymbol{x}^{*},\\mathcal{D})\\approx\\dfrac{1}{P}\\sum_{p=1}^{P}p\\!\\left(y^{*}\\mid\\boldsymbol{x}^{*},\\hat{\\boldsymbol{w}}_{p}\\right),\\qquad\\hat{\\boldsymbol{w}}_{p}\\sim q_{\\phi}(\\boldsymbol{w})",
+          desc: "در زمان آزمون، dropout فعال می‌ماند و P اجرای تصادفیِ شبکه، توزیع پسین را تقریب می‌زند.",
+        },
+        {
+          id: "var",
+          label: "کمّی‌سازی عدم قطعیت پیش‌بین",
+          tex: "\\hat{\\mu}=\\dfrac{1}{P}\\sum_{p=1}^{P}\\hat{y}_{p},\\qquad\\hat{\\sigma}^{2}=\\underbrace{\\dfrac{1}{P}\\sum_{p=1}^{P}\\left(\\hat{y}_{p}-\\hat{\\mu}\\right)^{2}}_{\\text{epistemic}}\\;+\\;\\hat{\\sigma}^{2}_{\\text{aleatoric}}",
+          desc: "عدم قطعیت مدل (شناختی) از پراکندگی اجراها و عدم قطعیت داده (ذاتی) از نویز آموخته‌شدهٔ مدل به‌دست می‌آید.",
+        },
+      ],
+    },
+    {
+      id: "output",
+      title: "۴) خروجی احتمالاتی و آموزش مدل",
+      items: [
+        {
+          id: "pi",
+          label: "بازهٔ پیش‌بینی ۹۵٪",
+          tex: "\\mathrm{PI}_{\\alpha}=\\Big[\\hat{\\mu}-z_{\\alpha/2}\\,\\hat{\\sigma},\\ \\ \\hat{\\mu}+z_{\\alpha/2}\\,\\hat{\\sigma}\\Big],\\qquad z_{0.025}=1.96",
+          desc: "به‌جای یک عدد قطعی، دامنه‌ای معتبر با پوشش احتمالی مشخص ارائه می‌شود — ورودی مستقیم تصمیم‌گیری ریسک‌آگاه.",
+        },
+        {
+          id: "nll",
+          label: "زیان لگارتم درست‌نمایی منفی (NLL)",
+          tex: "\\mathcal{L}_{\\mathrm{NLL}}=\\dfrac{1}{N}\\sum_{i=1}^{N}\\left[\\dfrac{\\left(y_{i}-\\hat{\\mu}_{i}\\right)^{2}}{2\\,\\hat{\\sigma}_{i}^{2}}+\\dfrac{1}{2}\\log\\hat{\\sigma}_{i}^{2}\\right]",
+          desc: "رگرسیون هتروسداستیک: مدل هم‌زمان میانگین و واریانس را می‌آموزد و به نمونه‌های پرنویز وزن کمتری می‌دهد.",
+        },
+      ],
+    },
+  ],
+};
+
 /* ─────────────────────── Figures & thematic images ───────────────────────
    Images collected from free web sources; each caption is tailored to
    the proposal content (sample-file style: numbered figure + description). */
@@ -689,7 +829,7 @@ export const fig: Record<string, FigureDef> = {
 export const toc = [
   { id: "intro", no: "۰۱", title: "مقدمه", desc: "اهمیت پیش‌بینی ترافیک، ماهیت داده‌ها و مفاهیم کلیدی" },
   { id: "problem", no: "۰۲", title: "بیان مسئله", desc: "چالش‌ها، سیر تکامل مدل‌ها و خلأ پژوهشی" },
-  { id: "goals", no: "۰۳", title: "هدف پژوهش", desc: "اهداف، سؤالات، معماری پیشنهادی و معیارهای ارزیابی" },
+  { id: "goals", no: "۰۳", title: "هدف پژوهش", desc: "اهداف، سؤالات، معماری، فرمول‌بندی ریاضی و معیارها" },
   { id: "background", no: "۰۴", title: "پیشینه پژوهش", desc: "خط زمانی تحول پژوهش‌ها از ۲۰۰۳ تا امروز" },
   { id: "chapters", no: "۰۵", title: "فصل‌بندی", desc: "ساختار چهارفصلی پایان‌نامه و نقشه راه اجرا" },
   { id: "references", no: "۰۶", title: "مراجع", desc: "مرجع اصلی و مراجع فرعی پژوهش" },

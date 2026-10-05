@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
 import { Section, SectionHeading, RevealCard } from "@/components/defense/section-heading";
 import { Figure } from "@/components/defense/figure";
-import { problem, fig } from "@/lib/defense-data";
+import { FormulaCard } from "@/components/defense/math";
+import { problem, fig, mathFramework } from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
 function LucIcon({ name, className }: { name: string; className?: string }) {
@@ -130,6 +131,12 @@ export function ProblemSection() {
             </div>
           ))}
         </div>
+        <FormulaCard
+          label={mathFramework.transition.label}
+          tex={mathFramework.transition.tex}
+          desc={mathFramework.transition.desc}
+          className="mt-5 border-destructive/25 bg-card/70"
+        />
       </RevealCard>
 
       {/* Research gap */}
