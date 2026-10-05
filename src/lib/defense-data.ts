@@ -767,7 +767,7 @@ export type FigureDef = {
 
 export const fig: Record<string, FigureDef> = {
   night: {
-    src: "/images/traffic-night.jpg",
+    src: "/images/traffic-night.webp",
     no: "شکل ۱",
     title: "جریان ترافیک شهری در ساعات اوج — ردپای نوری خودروها در شبکه معابر",
     alt: "نمای هوایی شبانه از بزرگراه شهری با ردپای نوری خودروها در حال حرکت",
@@ -775,7 +775,7 @@ export const fig: Record<string, FigureDef> = {
     source: "Unsplash",
   },
   control: {
-    src: "/images/control-room.jpg",
+    src: "/images/control-room.webp",
     no: "شکل ۲",
     title: "مرکز پایش و کنترل ترافیک — مقصد نهایی خروجی‌های پژوهش",
     alt: "اپراتور مرکز کنترل ترافیک در حال پایش نمایشگرهای شبکه معابر شهری",
@@ -783,7 +783,7 @@ export const fig: Record<string, FigureDef> = {
     source: "Reveal News",
   },
   congestion: {
-    src: "/images/traffic-congestion.jpg",
+    src: "/images/traffic-congestion.webp",
     no: "شکل ۳",
     title: "تراکم سنگین معابر در ساعات اوج — هزینه پنهان پیش‌بینی ناکارآمد",
     alt: "صف طولانی خودروها روی بزرگران چندخطه شهری در ساعات اوج",
@@ -791,7 +791,7 @@ export const fig: Record<string, FigureDef> = {
     source: "Unsplash",
   },
   graph: {
-    src: "/images/graph-network.jpg",
+    src: "/images/graph-network.webp",
     no: "شکل ۴",
     title: "بازنمایی شبکه معابر به‌صورت گراف — گره‌ها، یال‌ها و وزن‌ها",
     alt: "نمودار گراف شبکه‌ای با گره‌ها، یال‌ها و وزن‌های متفاوت",
@@ -799,7 +799,7 @@ export const fig: Record<string, FigureDef> = {
     source: "Domo",
   },
   stgnn: {
-    src: "/images/stgnn-pipeline.jpg",
+    src: "/images/stgnn-pipeline.webp",
     no: "شکل ۵",
     title: "فرایند گردآوری داده و مدل‌سازی گرافی فضایی-زمانی شبکه ترافیک",
     alt: "نمودار فرایند تبدیل داده خام سنسورها به گراف فضایی-زمانی مدل STGNN",
@@ -807,7 +807,7 @@ export const fig: Record<string, FigureDef> = {
     source: "Scientific Reports",
   },
   architecture: {
-    src: "/images/graph-architecture.jpg",
+    src: "/images/graph-architecture.webp",
     no: "شکل ۶",
     title: "نمونه معماری پیشرفته گراف-پیچشی پویا در پژوهش‌های موج جدید",
     alt: "نمودار معماری شبکه عصبی گراف-پیچشی زمانی چندمقیاسی",
@@ -815,7 +815,7 @@ export const fig: Record<string, FigureDef> = {
     source: "IOP Science",
   },
   future: {
-    src: "/images/future-its.jpg",
+    src: "/images/future-its.webp",
     no: "چشم‌انداز",
     title: "آینده مدیریت ترافیک — تصمیم‌گیری هوشمند زیر چتر عدم قطعیت",
     alt: "تصویر مفهومی از شهر هوشمند و سامانه حمل‌ونقل هوشمند آینده",

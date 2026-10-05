@@ -355,7 +355,7 @@ const ExportStage = React.memo(function ExportStage() {
           {(i === 0 || i === SLIDES.length - 1) && (
             <>
               <img
-                src={i === 0 ? "/images/traffic-night.jpg" : "/images/future-its.jpg"}
+                src={i === 0 ? "/images/traffic-night.webp" : "/images/future-its.webp"}
                 alt=""
                 className="export-slide-bg absolute inset-0 h-full w-full object-cover opacity-25 dark:opacity-20"
               />

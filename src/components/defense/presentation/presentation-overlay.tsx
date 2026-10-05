@@ -228,7 +228,7 @@ export function PresentationOverlay() {
             {slideIndex === 0 && (
               <>
                 <img
-                  src="/images/traffic-night.jpg"
+                  src="/images/traffic-night.webp"
                   alt=""
                   aria-hidden
                   className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25 dark:opacity-20"
@@ -242,7 +242,7 @@ export function PresentationOverlay() {
             {slideIndex === total - 1 && (
               <>
                 <img
-                  src="/images/future-its.jpg"
+                  src="/images/future-its.webp"
                   alt=""
                   aria-hidden
                   className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 dark:opacity-15"
