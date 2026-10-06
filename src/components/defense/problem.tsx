@@ -21,7 +21,6 @@ const GEN_STYLES = [
   { badge: "bg-primary/15 text-primary", border: "border-primary/40" },
   { badge: "bg-accent/20 text-accent-foreground", border: "border-accent/60" },
 ];
-
 export function ProblemSection() {
   return (
     <Section id={problem.id} className="bg-muted/30">
@@ -49,56 +48,46 @@ export function ProblemSection() {
         ))}
       </div>
 
-      {/* Evolution of models */}
+      {/* Evolution of models — compact 2x2 grid */}
       <h3 className="mb-2 text-xl font-extrabold text-foreground">{problem.evolutionTitle}</h3>
-      <p className="mb-6 max-w-3xl text-sm leading-8 text-muted-foreground">{problem.evolutionLead}</p>
+      <p className="mb-5 max-w-3xl text-sm leading-8 text-muted-foreground">{problem.evolutionLead}</p>
 
-      <div className="relative mb-12">
-        {/* Vertical evolution line */}
-        <div aria-hidden className="absolute bottom-4 right-[1.35rem] top-4 w-0.5 bg-gradient-to-b from-border via-primary/40 to-accent/60 sm:right-[1.6rem]" />
-
-        <div className="flex flex-col gap-6">
-          {problem.generations.map((g, gi) => {
-            const style = GEN_STYLES[gi % GEN_STYLES.length];
-            return (
-              <motion.div
-                key={g.gen}
-                initial={{ opacity: 0, x: 24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="relative flex gap-4 pr-0 sm:gap-6"
-              >
-                <div className="relative z-10 flex flex-col items-center">
-                  <span
-                    className={cn(
-                      "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 bg-background text-sm font-black sm:h-[3.25rem] sm:w-[3.25rem]",
-                      style.border
-                    )}
-                  >
-                    <span className={style.badge}>{problem.generations.indexOf(g) + 1}</span>
-                  </span>
+      <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {problem.generations.map((g, gi) => {
+          const style = GEN_STYLES[gi % GEN_STYLES.length];
+          return (
+            <motion.div
+              key={g.gen}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.45, delay: gi * 0.06 }}
+              className={cn(
+                "rounded-2xl border-2 bg-card/70 p-4 backdrop-blur-sm transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/10",
+                style.border
+              )}
+            >
+              <div className="mb-3 flex items-center gap-2.5">
+                <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 bg-background text-sm font-black", style.border)}>
+                  <span className={style.badge}>{gi + 1}</span>
+                </span>
+                <div className="flex flex-col">
+                  <span className={cn("w-fit rounded-full px-2.5 py-0.5 text-[0.68rem] font-bold", style.badge)}>{g.gen}</span>
+                  <h4 className="mt-0.5 text-sm font-bold text-foreground">{g.title}</h4>
                 </div>
-
-                <div className="flex-1 rounded-2xl border bg-card/70 p-5 backdrop-blur-sm">
-                  <div className="mb-3 flex flex-wrap items-center gap-2">
-                    <span className={cn("rounded-full px-3 py-1 text-xs font-bold", style.badge)}>{g.gen}</span>
-                    <h4 className="text-base font-bold text-foreground sm:text-lg">{g.title}</h4>
+              </div>
+              <div className="flex flex-col gap-2">
+                {g.models.map((m) => (
+                  <div key={m.name} className="rounded-xl bg-muted/40 p-3">
+                    <h5 className="mb-1 text-[0.82rem] font-bold text-foreground">{m.name}</h5>
+                    <p className="text-[0.78rem] leading-6 text-muted-foreground">{m.text}</p>
+                    <span className="mt-1.5 inline-block text-[0.66rem] font-medium text-primary/80">{m.cite}</span>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    {g.models.map((m) => (
-                      <div key={m.name} className="rounded-xl bg-muted/40 p-4">
-                        <h5 className="mb-1.5 text-sm font-bold text-foreground">{m.name}</h5>
-                        <p className="text-[0.82rem] leading-7 text-muted-foreground">{m.text}</p>
-                        <span className="mt-2 inline-block text-[0.7rem] font-medium text-primary/80">{m.cite}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Fundamental shortcoming */}

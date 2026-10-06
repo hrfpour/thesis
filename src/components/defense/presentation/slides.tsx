@@ -7,13 +7,11 @@ import { WipBadge } from "@/components/defense/section-heading";
 import { Tex } from "@/components/defense/math";
 import {
   meta,
-  toc,
   problem,
   goals,
   background,
   chapters,
   references,
-  intro,
   fig,
   mathFramework,
 } from "@/lib/defense-data";
@@ -29,7 +27,7 @@ function LucIcon({ name, className }: { name: string; className?: string }) {
 
 function SlideTitle({ children, sub }: { children: React.ReactNode; sub?: string }) {
   return (
-    <div className="mb-4 flex items-center gap-3">
+    <div className="mb-3.5 flex items-center gap-3">
       <h3 className="text-lg font-extrabold text-foreground sm:text-xl">{children}</h3>
       {sub && (
         <span dir="ltr" className="ltr text-xs font-medium uppercase tracking-widest text-muted-foreground">
@@ -77,6 +75,35 @@ function Chip({ children, className }: { children: React.ReactNode; className?: 
   );
 }
 
+/** Compact slide figure (image + numbered caption) */
+function SlideFigure({
+  data,
+  height = "h-36 sm:h-44",
+  contain = false,
+}: {
+  data: { src: string; alt: string; no: string; title: string };
+  height?: string;
+  contain?: boolean;
+}) {
+  return (
+    <figure className="overflow-hidden rounded-xl border bg-card/70">
+      <div className={cn("flex items-center justify-center", contain ? "bg-white p-1.5" : "")}>
+        <img
+          src={data.src}
+          alt={data.alt}
+          className={cn("w-full", height, contain ? "object-contain" : "object-cover")}
+        />
+      </div>
+      <figcaption className="flex items-center gap-2 bg-muted/50 px-3 py-1.5" dir="rtl">
+        <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[0.6rem] font-black text-primary-foreground">
+          {data.no}
+        </span>
+        <span className="text-[0.64rem] font-bold leading-4 text-foreground">{data.title}</span>
+      </figcaption>
+    </figure>
+  );
+}
+
 export type SlideDef = {
   section: string;
   sectionNo: string;
@@ -84,7 +111,7 @@ export type SlideDef = {
   render: () => React.ReactNode;
 };
 
-/* ────────── 27 fully-detailed slides ────────── */
+/* ────────── 13 condensed, visual-first slides ────────── */
 
 export const SLIDES: SlideDef[] = [
   /* 1 — Cover */
@@ -125,322 +152,69 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 2 — Table of contents */
-  {
-    section: "فهرست مطالب",
-    sectionNo: "",
-    title: "فهرست مطالب",
-    render: () => (
-      <div>
-        <SlideTitle sub="Table of Contents">فهرست مطالب</SlideTitle>
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-          {toc.map((t) => (
-            <SlideCard key={t.id} className="flex items-start gap-3">
-              <span className="text-lg font-black leading-6 text-primary/70">{t.no}</span>
-              <span className="flex flex-col">
-                <span className="text-sm font-bold text-foreground">{t.title}</span>
-                <span className="mt-1 text-[0.68rem] leading-5 text-muted-foreground">{t.desc}</span>
-              </span>
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 3 — Intro: importance of traffic forecasting */
+  /* 2 — Problem at a glance: images + challenges + core deficiency */
   {
     section: "مقدمه",
     sectionNo: "۰۱",
-    title: "چرا پیش‌بینی ترافیک؟",
+    title: "مسئله در یک نگاه",
     render: () => (
       <div>
-        <SlideTitle sub="Introduction">چرا پیش‌بینی ترافیک اهمیت حیاتی دارد؟</SlideTitle>
-        <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <p className="text-sm leading-7 text-foreground sm:text-base">{intro.lead}</p>
-        </SlideCard>
-        <SlideCard className="mb-2.5">
-          <h4 className="mb-1.5 text-sm font-black text-foreground">{intro.importance.title}</h4>
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{intro.importance.text}</p>
-        </SlideCard>
-        <p className="mb-2 text-xs font-bold text-muted-foreground">پیامدهای مدیریت ناکارآمد ترافیک:</p>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {intro.importance.impacts.map((im) => (
-            <SlideCard key={im.label} className="flex flex-col items-center gap-2 p-2.5 text-center">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive/10 text-destructive">
-                <LucIcon name={im.icon} className="h-4 w-4" />
-              </span>
-              <span className="text-[0.7rem] font-semibold leading-5 text-foreground">{im.label}</span>
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 4 — Visual look at the problem and application */
-  {
-    section: "مقدمه",
-    sectionNo: "۰۱",
-    title: "نگاهی تصویری به مسئله",
-    render: () => (
-      <div>
-        <SlideTitle sub="Visual Context">نگاهی تصویری به مسئله و کاربرد پژوهش</SlideTitle>
+        <SlideTitle sub="The Problem at a Glance">مسئله در یک نگاه</SlideTitle>
         <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-          {[fig.congestion, fig.control].map((f) => (
-            <figure key={f.src} className="overflow-hidden rounded-xl border bg-card/70">
-              <img src={f.src} alt={f.alt} className="h-48 w-full object-cover sm:h-60" />
-              <figcaption className="flex items-center gap-2 bg-muted/50 px-3 py-2" dir="rtl">
-                <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[0.6rem] font-black text-primary-foreground">
-                  {f.no}
-                </span>
-                <span className="text-[0.66rem] font-bold leading-4 text-foreground">{f.title}</span>
-              </figcaption>
-            </figure>
-          ))}
+          <SlideFigure data={fig.congestion} height="h-36 sm:h-44" />
+          <SlideFigure data={fig.control} height="h-36 sm:h-44" />
         </div>
-        <p className="mt-2.5 flex items-center gap-1.5 text-[0.62rem] leading-5 text-muted-foreground">
-          <Icons.Camera className="h-3 w-3 shrink-0" />
-          تصاویر از منابع آزاد وب — شرح کامل هر شکل در حالت مرور سایت ارائه شده است
-        </p>
-      </div>
-    ),
-  },
-
-  /* 5 — Intro: nature of traffic data */
-  {
-    section: "مقدمه",
-    sectionNo: "۰۱",
-    title: "ماهیت داده‌های ترافیک",
-    render: () => (
-      <div>
-        <SlideTitle sub="Data Characteristics">ماهیت داده‌های ترافیک</SlideTitle>
-        <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <h4 className="mb-1.5 text-sm font-black text-foreground">{intro.nature.title}</h4>
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{intro.nature.text}</p>
-        </SlideCard>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          {intro.nature.factors.map((f) => (
-            <SlideCard key={f.title} className="p-3">
-              <div className="mb-1.5 flex items-center gap-2">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
-                  <LucIcon name={f.icon} className="h-3.5 w-3.5" />
-                </span>
-                <h4 className="text-xs font-bold text-foreground">{f.title}</h4>
-              </div>
-              <p className="text-[0.7rem] leading-5 text-muted-foreground">{f.text}</p>
-            </SlideCard>
-          ))}
-        </div>
-
-        {/* Figure 4 — graph representation of the road network */}
-        <figure className="mt-2.5 overflow-hidden rounded-xl border bg-card/70">
-          <div className="flex items-center justify-center bg-white p-2">
-            <img src={fig.graph.src} alt={fig.graph.alt} className="h-40 w-full object-contain sm:h-48" />
-          </div>
-          <figcaption className="flex items-center gap-2 bg-muted/50 px-3 py-2" dir="rtl">
-            <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[0.6rem] font-black text-primary-foreground">
-              {fig.graph.no}
-            </span>
-            <span className="text-[0.66rem] font-bold leading-4 text-foreground">{fig.graph.title}</span>
-          </figcaption>
-        </figure>
-      </div>
-    ),
-  },
-
-  /* 6 — Intro: key concepts (full definitions) */
-  {
-    section: "مقدمه",
-    sectionNo: "۰۱",
-    title: "مفاهیم کلیدی پژوهش",
-    render: () => (
-      <div>
-        <SlideTitle sub="Key Concepts">مفاهیم کلیدی پژوهش</SlideTitle>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-          {intro.concepts.items.map((c) => (
-            <SlideCard key={c.term} className="p-3">
-              <div className="mb-1.5 flex flex-wrap items-center justify-between gap-1.5">
-                <h4 className="text-[0.72rem] font-black text-foreground">{c.term}</h4>
-                <span
-                  dir="ltr"
-                  className="ltr rounded-md bg-muted px-1.5 py-0.5 text-[0.6rem] font-semibold text-muted-foreground"
-                >
-                  {c.en}
-                </span>
-              </div>
-              <p className="text-[0.68rem] leading-[1.65] text-muted-foreground">{c.def}</p>
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 7 — Problem statement: challenges */
-  {
-    section: "بیان مسئله",
-    sectionNo: "۰۲",
-    title: "چالش‌های پیش‌بینی ترافیک",
-    render: () => (
-      <div>
-        <SlideTitle sub="Problem Statement">چالش‌های پیش‌بینی جریان ترافیک</SlideTitle>
-        <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <p className="text-sm leading-7 text-foreground">{problem.lead}</p>
-        </SlideCard>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="mt-2.5 grid grid-cols-3 gap-2">
           {problem.challenges.map((ch) => (
-            <SlideCard key={ch.title} className="p-3">
-              <div className="mb-1.5 flex items-center gap-2">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
-                  <LucIcon name={ch.icon} className="h-3.5 w-3.5" />
+            <SlideCard key={ch.title} className="flex flex-col items-center gap-1.5 p-2.5 text-center">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+                <LucIcon name={ch.icon} className="h-4 w-4" />
+              </span>
+              <span className="text-[0.68rem] font-bold leading-4 text-foreground">{ch.title}</span>
+              <span className="text-[0.6rem] leading-4 text-muted-foreground">{ch.text}</span>
+            </SlideCard>
+          ))}
+        </div>
+        <SlideCard className="mt-2.5 border-destructive/30 bg-destructive/5">
+          <p className="flex items-center gap-2 text-[0.72rem] font-bold leading-6 text-foreground">
+            <Icons.TriangleAlert className="h-4 w-4 shrink-0 text-destructive" />
+            {problem.coreProblem.title} — {problem.coreProblem.text}
+          </p>
+        </SlideCard>
+      </div>
+    ),
+  },
+
+  /* 3 — Evolution of four generations + the unsolved deficiency */
+  {
+    section: "بیان مسئله",
+    sectionNo: "۰۲",
+    title: "سیر تکامل مدل‌ها",
+    render: () => (
+      <div>
+        <SlideTitle sub="Evolution of Models">سیر تکامل مدل‌های پیش‌بینی ترافیک</SlideTitle>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          {problem.generations.map((g, gi) => (
+            <SlideCard key={g.gen} delay={gi * 50} className="flex flex-col gap-1.5 p-3">
+              <div className="flex items-center justify-between gap-1.5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-xs font-black text-primary">
+                  {["۱", "۲", "۳", "۴"][gi]}
                 </span>
-                <h4 className="text-xs font-bold text-foreground">{ch.title}</h4>
+                <span
+                  className={cn(
+                    "rounded-full px-2 py-0.5 text-[0.6rem] font-black",
+                    gi === 3 ? "bg-accent/25 text-accent-foreground" : "bg-muted text-muted-foreground"
+                  )}
+                >
+                  {g.gen}
+                </span>
               </div>
-              <p className="text-[0.7rem] leading-5 text-muted-foreground">{ch.text}</p>
+              <h4 className="text-[0.7rem] font-black leading-5 text-foreground">{g.title}</h4>
+              <p className="text-[0.62rem] leading-4.5 text-muted-foreground">{g.models[0].text}</p>
+              <span className="mt-auto text-[0.58rem] font-medium text-primary/70">{g.models[0].cite}</span>
             </SlideCard>
           ))}
         </div>
-      </div>
-    ),
-  },
-
-  /* 8 — First generation */
-  {
-    section: "بیان مسئله",
-    sectionNo: "۰۲",
-    title: "نسل اول — مدل‌های کلاسیک",
-    render: () => (
-      <div>
-        <SlideTitle sub="Generation 1">نسل اول: مدل‌های آماری و یادگیری ماشین کلاسیک</SlideTitle>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {problem.generations[0].models.map((m) => (
-            <SlideCard key={m.name}>
-              <div className="mb-2 flex items-center justify-between gap-2">
-                <h4 className="text-sm font-black text-foreground">{m.name}</h4>
-                <Badge variant="secondary" className="shrink-0 text-[0.65rem]">نسل اول</Badge>
-              </div>
-              <p className="text-[0.78rem] leading-7 text-muted-foreground">{m.text}</p>
-              <span className="mt-2 inline-block text-[0.68rem] font-medium text-primary/80">{m.cite}</span>
-            </SlideCard>
-          ))}
-        </div>
-        <SlideCard className="mt-3 border-destructive/30 bg-destructive/5">
-          <p className="flex items-center gap-2 text-xs font-bold leading-6 text-foreground">
-            <Icons.TriangleAlert className="h-4 w-4 shrink-0 text-destructive" />
-            محدودیت کلیدی: فرض خطی بودن روابط + نادیده گرفتن ساختار توپولوژیک شبکه راه‌ها
-          </p>
-        </SlideCard>
-      </div>
-    ),
-  },
-
-  /* 9 — Second generation */
-  {
-    section: "بیان مسئله",
-    sectionNo: "۰۲",
-    title: "نسل دوم — یادگیری عمیق فضایی-زمانی",
-    render: () => (
-      <div>
-        <SlideTitle sub="Generation 2">نسل دوم: یادگیری عمیق فضایی-زمانی (ترکیب CNN و RNN)</SlideTitle>
-        <SlideCard>
-          <div className="mb-2 flex items-center justify-between gap-2">
-            <h4 className="text-sm font-black text-foreground">ترکیب CNN و RNN</h4>
-            <Badge variant="secondary" className="shrink-0 text-[0.65rem]">نسل دوم</Badge>
-          </div>
-          <p className="text-[0.82rem] leading-8 text-muted-foreground">{problem.generations[1].models[0].text}</p>
-          <span className="mt-2 inline-block text-[0.68rem] font-medium text-primary/80">
-            {problem.generations[1].models[0].cite}
-          </span>
-        </SlideCard>
-        <SlideCard className="mt-3 border-destructive/30 bg-destructive/5">
-          <p className="flex items-center gap-2 text-xs font-bold leading-6 text-foreground">
-            <Icons.TriangleAlert className="h-4 w-4 shrink-0 text-destructive" />
-            محدودیت کلیدی: نامناسب برای ساختارهای غیراقلیدسی و نامنظم شبکه واقعی جاده‌ها
-          </p>
-        </SlideCard>
-      </div>
-    ),
-  },
-
-  /* 10 — Third generation */
-  {
-    section: "بیان مسئله",
-    sectionNo: "۰۲",
-    title: "نسل سوم — STGNN",
-    render: () => (
-      <div>
-        <SlideTitle sub="Generation 3">نسل سوم: شبکه‌های عصبی گرافی فضایی-زمانی (STGNN)</SlideTitle>
-        <SlideCard>
-          <div className="mb-2 flex items-center justify-between gap-2">
-            <h4 className="text-sm font-black text-foreground">STGCN و DCRNN</h4>
-            <Badge className="bg-primary text-primary-foreground shrink-0 text-[0.65rem]">نسل سوم</Badge>
-          </div>
-          <p className="text-[0.82rem] leading-8 text-muted-foreground">{problem.generations[2].models[0].text}</p>
-          <span className="mt-2 inline-block text-[0.68rem] font-medium text-primary/80">
-            {problem.generations[2].models[0].cite}
-          </span>
-        </SlideCard>
-        <SlideCard className="mt-3 border-primary/30 bg-primary/6">
-          <p className="flex items-center gap-2 text-xs font-bold leading-6 text-foreground">
-            <Icons.Trophy className="h-4 w-4 shrink-0 text-primary" />
-            مهم‌ترین تحول حوزه — در حال حاضر دقیق‌ترین ابزار پیش‌بینی نقطه‌ای ترافیک
-          </p>
-        </SlideCard>
-      </div>
-    ),
-  },
-
-  /* 11 — Fourth generation */
-  {
-    section: "بیان مسئله",
-    sectionNo: "۰۲",
-    title: "نسل چهارم — رویکرد بیزی",
-    render: () => (
-      <div>
-        <SlideTitle sub="Generation 4">نسل چهارم: رویکرد بیزی در یادگیری عمیق</SlideTitle>
-        <SlideCard>
-          <div className="mb-2 flex items-center justify-between gap-2">
-            <h4 className="text-sm font-black text-foreground">MC Dropout و Variational Inference</h4>
-            <Badge className="bg-accent/25 text-accent-foreground shrink-0 border border-accent/50">نسل چهارم</Badge>
-          </div>
-          <p className="text-[0.82rem] leading-8 text-muted-foreground">{problem.generations[3].models[0].text}</p>
-          <span className="mt-2 inline-block text-[0.68rem] font-medium text-primary/80">
-            {problem.generations[3].models[0].cite}
-          </span>
-        </SlideCard>
-        <SlideCard className="mt-3 border-accent/50 bg-accent/8">
-          <p className="flex items-center gap-2 text-xs font-bold leading-6 text-foreground">
-            <Icons.Sparkles className="h-4 w-4 shrink-0 text-accent-foreground" />
-            کلید حل مسئله: شبکه‌های عصبی با خروجی احتمالاتی و مدل‌سازی عدم قطعیت
-          </p>
-        </SlideCard>
-      </div>
-    ),
-  },
-
-  /* 12 — Fundamental shortcoming */
-  {
-    section: "بیان مسئله",
-    sectionNo: "۰۲",
-    title: "کاستی بنیادین مدل‌های موجود",
-    render: () => (
-      <div>
-        <SlideTitle sub="Core Deficiency">کاستی بنیادین: ماهیت قطعی و اطمینان کاذب</SlideTitle>
-        <SlideCard className="mb-2.5 border-destructive/30 bg-destructive/5">
-          <h4 className="mb-1.5 text-sm font-black text-foreground">{problem.coreProblem.title}</h4>
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{problem.coreProblem.text}</p>
-        </SlideCard>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          {problem.coreProblem.items.map((item) => (
-            <SlideCard key={item.title} className="p-3">
-              <h4 className="mb-1 text-xs font-bold text-foreground">{item.title}</h4>
-              <p className="text-[0.68rem] leading-5 text-muted-foreground">{item.text}</p>
-            </SlideCard>
-          ))}
-        </div>
-
-        {/* Deterministic → probabilistic transition formula */}
         <SlideCard className="mt-2.5 border-primary/30 bg-primary/5">
           <p className="mb-1.5 text-[0.68rem] font-black text-primary">{mathFramework.transition.label}</p>
           <Tex
@@ -453,17 +227,16 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 13 — Research gap & core problem */
+  /* 4 — Research gap & core problem */
   {
     section: "بیان مسئله",
     sectionNo: "۰۲",
     title: "خلأ پژوهشی و مسئله محوری",
     render: () => (
       <div>
-        <SlideTitle sub="Research Gap">خلأ پژوهشی و مسئله محوری پژوهش</SlideTitle>
+        <SlideTitle sub="Research Gap">خلأ پژوهشی و مسئله محوری</SlideTitle>
         <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <h4 className="mb-1.5 text-sm font-black text-foreground">{problem.gap.title}</h4>
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{problem.gap.text}</p>
+          <p className="text-[0.74rem] leading-6 text-muted-foreground">{problem.gap.text}</p>
         </SlideCard>
         <div className="mb-2.5 grid grid-cols-1 items-stretch gap-2 sm:grid-cols-[1fr_auto_1fr]">
           <SlideCard className="p-3">
@@ -491,7 +264,7 @@ export const SLIDES: SlideDef[] = [
         </div>
         <SlideCard className="border-primary/40 bg-gradient-to-bl from-primary/10 to-accent/8">
           <Chip className="mb-1.5">مسئله محوری پژوهش</Chip>
-          <p className="flex items-start gap-2.5 text-[0.78rem] font-bold leading-7 text-foreground">
+          <p className="flex items-start gap-2.5 text-[0.76rem] font-bold leading-7 text-foreground">
             <Icons.Crosshair className="mt-1.5 h-4.5 w-4.5 shrink-0 text-primary" />
             {problem.focus.text}
           </p>
@@ -500,140 +273,115 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 14 — Main & secondary objectives (full text) */
+  /* 5 — Objectives & main question (merged) */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
-    title: "هدف اصلی و اهداف فرعی",
+    title: "اهداف و سؤال محوری",
     render: () => (
       <div>
-        <SlideTitle sub="Objectives">هدف اصلی و اهداف فرعی پژوهش</SlideTitle>
+        <SlideTitle sub="Objectives & Main Question">اهداف و سؤال محوری پژوهش</SlideTitle>
         <SlideCard className="mb-2.5 border-primary/40 bg-primary/8">
           <Chip className="mb-1.5">{goals.main.label}</Chip>
-          <p className="text-[0.8rem] font-bold leading-7 text-foreground">{goals.main.text}</p>
+          <p className="text-[0.78rem] font-bold leading-7 text-foreground">{goals.main.text}</p>
         </SlideCard>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-2.5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {goals.sub.map((g, i) => (
-            <SlideCard key={g.title} delay={i * 40} className="p-3">
-              <div className="mb-1.5 flex items-center gap-2">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-[0.65rem] font-black text-primary">
-                  {["۱", "۲", "۳", "۴", "۵"][i]}
-                </span>
-                <h4 className="text-[0.72rem] font-black leading-5 text-foreground">{g.title}</h4>
-              </div>
-              <p className="text-[0.68rem] leading-[1.65] text-muted-foreground">{g.text}</p>
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 15 — Research questions */
-  {
-    section: "هدف پژوهش",
-    sectionNo: "۰۳",
-    title: "سؤالات پژوهش",
-    render: () => (
-      <div>
-        <SlideTitle sub="Research Questions">سؤالات پژوهش</SlideTitle>
-        <SlideCard className="mb-2.5 border-2 border-primary/35 bg-primary/8">
-          <Chip className="mb-1.5">سؤال اصلی</Chip>
-          <p className="text-[0.8rem] font-bold leading-7 text-foreground">{goals.questions.main}</p>
-        </SlideCard>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          {goals.questions.sub.map((q, i) => (
-            <SlideCard key={i} className="flex items-start gap-2.5 p-3" delay={i * 40}>
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-[0.65rem] font-black text-muted-foreground">
-                {["۱", "۲", "۳", "۴"][i]}
+            <SlideCard key={g.title} delay={i * 40} className="flex items-center gap-2 p-2.5">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-[0.62rem] font-black text-primary">
+                {["۱", "۲", "۳", "۴", "۵"][i]}
               </span>
-              <p className="text-[0.72rem] font-semibold leading-6 text-foreground">{q}</p>
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 16 — Proposed architecture 1: data & spatio-temporal module */
-  {
-    section: "هدف پژوهش",
-    sectionNo: "۰۳",
-    title: "معماری پیشنهادی (۱)",
-    render: () => (
-      <div>
-        <SlideTitle sub="Proposed Architecture 1/2">معماری پیشنهادی پژوهش — بخش اول</SlideTitle>
-        <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <h4 className="mb-1.5 text-sm font-black text-foreground">{goals.architecture.title}</h4>
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{goals.architecture.lead}</p>
-        </SlideCard>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          {goals.architecture.steps.slice(0, 2).map((s, i) => (
-            <SlideCard key={s.title} className="p-3" delay={i * 50}>
-              <div className="mb-2 flex items-center gap-2.5">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
-                  <LucIcon name={s.icon} className="h-4 w-4" />
-                </span>
-                <div className="flex min-w-0 flex-col">
-                  <p className="text-xs font-black leading-4 text-foreground">{s.title}</p>
-                  <span dir="ltr" className="ltr text-[0.6rem] font-semibold leading-4 text-primary/70">{s.en}</span>
-                </div>
+              <div className="flex min-w-0 flex-col">
+                <p className="text-[0.68rem] font-black leading-5 text-foreground">{g.title}</p>
+                <p className="text-[0.6rem] leading-4 text-muted-foreground">{g.text}</p>
               </div>
-              <p className="text-[0.7rem] leading-6 text-muted-foreground">{s.text}</p>
-              <p className="mt-2 rounded-lg bg-muted/50 px-2.5 py-1.5 text-[0.66rem] leading-5 text-foreground/80">
-                {s.detail}
-              </p>
             </SlideCard>
           ))}
         </div>
-
-        {/* Figure 5 — data collection & STGNN modeling pipeline */}
-        <figure className="mt-2.5 overflow-hidden rounded-xl border bg-card/70">
-          <div className="flex items-center justify-center bg-white p-2">
-            <img src={fig.stgnn.src} alt={fig.stgnn.alt} className="h-40 w-full object-contain sm:h-48" />
-          </div>
-          <figcaption className="flex items-center gap-2 bg-muted/50 px-3 py-2" dir="rtl">
-            <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[0.6rem] font-black text-primary-foreground">
-              {fig.stgnn.no}
-            </span>
-            <span className="text-[0.66rem] font-bold leading-4 text-foreground">{fig.stgnn.title}</span>
-          </figcaption>
-        </figure>
+        <SlideCard className="border-2 border-primary/35 bg-primary/6">
+          <Chip className="mb-1.5">سؤال اصلی</Chip>
+          <p className="text-[0.74rem] font-bold leading-7 text-foreground">{goals.questions.main}</p>
+        </SlideCard>
       </div>
     ),
   },
 
-  /* 17 — Proposed architecture 2: Bayesian layer & probabilistic output */
+  /* 6 — Proposed architecture: unified pipeline + two figures */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
-    title: "معماری پیشنهادی (۲)",
+    title: "معماری پیشنهادی — جریان یکپارچه",
     render: () => (
       <div>
-        <SlideTitle sub="Proposed Architecture 2/2">معماری پیشنهادی پژوهش — بخش دوم</SlideTitle>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <SlideTitle sub="Proposed Architecture">معماری پیشنهادی — جریان یکپارچه</SlideTitle>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4" dir="rtl">
+          {goals.architecture.steps.map((s, i) => (
+            <React.Fragment key={s.title}>
+              <SlideCard delay={i * 50} className="relative flex flex-col gap-1.5 p-2.5">
+                {i === 2 && (
+                  <span className="absolute -top-2 right-2 z-10"><WipBadge label="هسته نوآوری" /></span>
+                )}
+                <div className="flex items-center gap-2">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
+                    <LucIcon name={s.icon} className="h-4 w-4" />
+                  </span>
+                  <div className="flex min-w-0 flex-col">
+                    <p className="text-[0.68rem] font-black leading-4 text-foreground">{s.title}</p>
+                    <span dir="ltr" className="ltr text-[0.56rem] font-semibold leading-3.5 text-primary/70">{s.en}</span>
+                  </div>
+                </div>
+                <p className="text-[0.6rem] leading-4.5 text-muted-foreground">{s.text}</p>
+              </SlideCard>
+              {i < goals.architecture.steps.length - 1 && (
+                <div className="col-span-1 hidden items-center justify-center lg:flex" aria-hidden>
+                  <Icons.ChevronLeft className="h-5 w-5 shrink-0 text-primary/60" />
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+        <div className="mt-2.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+          <SlideFigure data={fig.graph} height="h-32 sm:h-40" contain />
+          <SlideFigure data={fig.stgnn} height="h-32 sm:h-40" contain />
+        </div>
+      </div>
+    ),
+  },
+
+  /* 7 — Architecture core: Bayesian layer & probabilistic output */
+  {
+    section: "هدف پژوهش",
+    sectionNo: "۰۳",
+    title: "معماری — هسته بیزی و خروجی احتمالاتی",
+    render: () => (
+      <div>
+        <SlideTitle sub="Bayesian Core">هسته بیزی و خروجی احتمالاتی — حلقه مفقوده</SlideTitle>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {goals.architecture.steps.slice(2).map((s, i) => (
-            <SlideCard key={s.title} className="relative p-3" delay={i * 50}>
+            <SlideCard key={s.title} delay={i * 60} className="relative flex flex-col gap-1.5 p-3">
               {i === 0 && (
                 <span className="absolute -top-2 right-2 z-10"><WipBadge label="هسته نوآوری" /></span>
               )}
-              <div className="mb-2 flex items-center gap-2.5">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
-                  <LucIcon name={s.icon} className="h-4 w-4" />
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
+                  <LucIcon name={s.icon} className="h-4.5 w-4.5" />
                 </span>
                 <div className="flex min-w-0 flex-col">
                   <p className="text-xs font-black leading-4 text-foreground">{s.title}</p>
-                  <span dir="ltr" className="ltr text-[0.6rem] font-semibold leading-4 text-primary/70">{s.en}</span>
+                  <span dir="ltr" className="ltr text-[0.58rem] font-semibold leading-4 text-primary/70">{s.en}</span>
                 </div>
               </div>
-              <p className="text-[0.7rem] leading-6 text-muted-foreground">{s.text}</p>
-              <p className="mt-2 rounded-lg bg-muted/50 px-2.5 py-1.5 text-[0.66rem] leading-5 text-foreground/80">
+              <p className="text-[0.66rem] leading-5 text-muted-foreground">{s.text}</p>
+              <p className="mt-1 rounded-lg bg-muted/50 px-2.5 py-1.5 text-[0.62rem] leading-4.5 text-foreground/80">
                 {s.detail}
               </p>
             </SlideCard>
           ))}
         </div>
-        <p className="mt-2.5 flex items-center gap-2 text-[0.68rem] leading-6 text-muted-foreground">
+        <div className="mt-2.5">
+          <SlideFigure data={fig.architecture} height="h-36 sm:h-44" contain />
+        </div>
+        <p className="mt-2 flex items-center gap-1.5 text-[0.62rem] leading-5 text-muted-foreground">
           <Icons.FlaskConical className="h-3.5 w-3.5 shrink-0 text-accent-foreground" />
           {goals.architecture.wipNote}
         </p>
@@ -641,270 +389,145 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 18 — Mathematical formulation 1: graph problem & spatio-temporal module */
+  /* 8 — Mathematical formulation: the theoretical core (4 essential formulas) */
   {
     section: "هدف پژوهش",
     sectionNo: "۰۳",
-    title: "فرمول‌بندی ریاضی (۱)",
-    render: () => (
-      <div>
-        <SlideTitle sub="Mathematical Formulation 1/3">فرمول‌بندی ریاضی — مسئله‌بندی و ماژول فضایی-زمانی</SlideTitle>
-        <div className="flex flex-col gap-2">
-          {[...mathFramework.groups[0].items, ...mathFramework.groups[1].items].map((f) => (
-            <SlideCard key={f.id} className="flex flex-col gap-1 p-2.5">
-              <p className="text-[0.68rem] font-black text-primary">{f.label}</p>
-              <Tex
-                tex={f.tex}
-                className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1.5 text-[0.74rem]"
-              />
-              {f.desc && <p className="text-[0.62rem] leading-4 text-muted-foreground">{f.desc}</p>}
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 19 — Mathematical formulation 2: Bayesian inference & uncertainty */
-  {
-    section: "هدف پژوهش",
-    sectionNo: "۰۳",
-    title: "فرمول‌بندی ریاضی (۲)",
-    render: () => (
-      <div>
-        <SlideTitle sub="Mathematical Formulation 2/3">فرمول‌بندی ریاضی — استنباط بیزی و کمّی‌سازی عدم قطعیت</SlideTitle>
-        <div className="flex flex-col gap-1.5">
-          {mathFramework.groups[2].items.map((f) => (
-            <SlideCard key={f.id} className="flex flex-col gap-1 p-2">
-              <p className="text-[0.66rem] font-black text-primary">{f.label}</p>
-              <Tex
-                tex={f.tex}
-                className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1 text-[0.7rem]"
-              />
-              {f.desc && <p className="text-[0.6rem] leading-4 text-muted-foreground">{f.desc}</p>}
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 20 — Mathematical formulation 3: probabilistic output & metric equations */
-  {
-    section: "هدف پژوهش",
-    sectionNo: "۰۳",
-    title: "فرمول‌بندی ریاضی (۳)",
-    render: () => (
-      <div>
-        <SlideTitle sub="Mathematical Formulation 3/3">فرمول‌بندی ریاضی — خروجی احتمالاتی و معیارها</SlideTitle>
-        <div className="flex flex-col gap-2">
-          {mathFramework.groups[3].items.map((f) => (
-            <SlideCard key={f.id} className="flex flex-col gap-1 p-2.5">
-              <p className="text-[0.68rem] font-black text-primary">{f.label}</p>
-              <Tex
-                tex={f.tex}
-                className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1.5 text-[0.74rem]"
-              />
-              {f.desc && <p className="text-[0.62rem] leading-4 text-muted-foreground">{f.desc}</p>}
-            </SlideCard>
-          ))}
-        </div>
-        <p className="mb-1.5 mt-2.5 text-[0.7rem] font-black text-muted-foreground">فرمول معیارهای ارزیابی:</p>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {[...goals.metrics.accuracy.items, ...goals.metrics.reliability.items].map((m) => (
-            <SlideCard key={m.name} className="flex flex-col gap-1 p-2.5">
-              <div className="flex items-center justify-between gap-2">
-                <span dir="ltr" className="ltr rounded-md bg-primary/12 px-2 py-0.5 text-[0.64rem] font-black text-primary">
-                  {m.name}
-                </span>
-                <span className="text-[0.62rem] font-semibold text-muted-foreground">{m.desc}</span>
-              </div>
-              <Tex tex={m.tex} className="math-formula-compact rounded-lg bg-muted/45 px-2 py-1 text-[0.66rem]" />
-            </SlideCard>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
-  /* 21 — Evaluation metrics (full) */
-  {
-    section: "هدف پژوهش",
-    sectionNo: "۰۳",
-    title: "معیارهای ارزیابی",
-    render: () => (
-      <div>
-        <SlideTitle sub="Evaluation Metrics">معیارهای ارزیابی پژوهش</SlideTitle>
-        <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{goals.metrics.lead}</p>
-        </SlideCard>
-        <div className="mb-2 grid grid-cols-1 gap-2 md:grid-cols-2">
-          <SlideCard className="p-3">
-            <p className="mb-2 flex items-center gap-1.5 text-xs font-black text-foreground">
-              <Icons.Gauge className="h-4 w-4 shrink-0 text-primary" />
-              {goals.metrics.accuracy.title}
-            </p>
-            <ul className="flex flex-col gap-1.5">
-              {goals.metrics.accuracy.items.map((m) => (
-                <li key={m.name} className="flex items-center gap-2 text-[0.7rem] leading-5 text-muted-foreground">
-                  <span
-                    dir="ltr"
-                    className="ltr shrink-0 rounded-md bg-primary/12 px-2 py-0.5 text-[0.64rem] font-black text-primary"
-                  >
-                    {m.name}
-                  </span>
-                  {m.desc}
-                </li>
-              ))}
-            </ul>
-          </SlideCard>
-          <SlideCard className="p-3">
-            <p className="mb-2 flex items-center gap-1.5 text-xs font-black text-foreground">
-              <Icons.ShieldCheck className="h-4 w-4 shrink-0 text-accent-foreground" />
-              {goals.metrics.reliability.title}
-            </p>
-            <ul className="flex flex-col gap-1.5">
-              {goals.metrics.reliability.items.map((m) => (
-                <li key={m.name} className="flex items-center gap-2 text-[0.7rem] leading-5 text-muted-foreground">
-                  <span
-                    dir="ltr"
-                    className="ltr shrink-0 rounded-md bg-accent/15 px-2 py-0.5 text-[0.64rem] font-black text-accent-foreground"
-                  >
-                    {m.name}
-                  </span>
-                  {m.desc}
-                </li>
-              ))}
-            </ul>
-          </SlideCard>
-        </div>
-        <SlideCard className="p-3">
-          <p className="mb-1.5 flex items-center gap-1.5 text-xs font-black text-foreground">
-            <Icons.FlaskConical className="h-4 w-4 shrink-0 text-primary" />
-            {goals.metrics.validation.title}
-          </p>
-          <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-            {goals.metrics.validation.items.map((v) => (
-              <li key={v} className="flex items-start gap-2 text-[0.68rem] leading-5 text-muted-foreground">
-                <Icons.CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                {v}
-              </li>
+    title: "فرمول‌بندی ریاضی — هسته نظری",
+    render: () => {
+      const items = [
+        mathFramework.groups[0].items.find((f) => f.id === "task")!,
+        mathFramework.groups[1].items.find((f) => f.id === "gcn")!,
+        mathFramework.groups[2].items.find((f) => f.id === "bayes")!,
+        mathFramework.groups[2].items.find((f) => f.id === "elbo")!,
+      ];
+      return (
+        <div>
+          <SlideTitle sub="Mathematical Formulation">فرمول‌بندی ریاضی — هسته نظری</SlideTitle>
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+            {items.map((f, i) => (
+              <SlideCard key={f.id} delay={i * 50} className="flex flex-col gap-1.5 p-3">
+                <p className="text-[0.68rem] font-black text-primary">{f.label}</p>
+                <Tex
+                  tex={f.tex}
+                  className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1.5 text-[0.72rem]"
+                />
+                {f.desc && <p className="text-[0.6rem] leading-4 text-muted-foreground">{f.desc}</p>}
+              </SlideCard>
             ))}
-          </ul>
-        </SlideCard>
-      </div>
-    ),
-  },
-
-  /* 22 — Background 1: from classical statistics to deep learning */
-  {
-    section: "پیشینه پژوهش",
-    sectionNo: "۰۴",
-    title: "پیشینه ۱ — ۲۰۰۳ تا ۲۰۱۷",
-    render: () => (
-      <div>
-        <SlideTitle sub="Timeline 2003–2017">پیشینه پژوهش — از آمار کلاسیک تا یادگیری عمیق</SlideTitle>
-        <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{background.lead}</p>
-        </SlideCard>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          {background.timeline.slice(0, 5).map((t) => (
-            <div
-              key={`${t.year}-${t.title}`}
-              className={cn(
-                "rounded-xl border p-2.5",
-                t.kind === "fusion" ? "border-primary/45 bg-primary/8" : "border-border bg-card/60"
-              )}
-            >
-              <div className="mb-1 flex items-center gap-2.5">
-                <span
-                  className={cn(
-                    "shrink-0 rounded-lg px-2 py-0.5 text-[0.7rem] font-black tabular-nums-fa",
-                    t.kind === "fusion" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
-                  )}
-                >
-                  {t.year}
-                </span>
-                <div className="flex min-w-0 flex-col">
-                  <span className="text-[0.72rem] font-bold leading-5 text-foreground">{t.title}</span>
-                  <span className="text-[0.62rem] leading-4 text-muted-foreground">{t.cite}</span>
-                </div>
-              </div>
-              <p className="text-[0.66rem] leading-[1.6] text-muted-foreground">{t.text}</p>
-            </div>
-          ))}
+          </div>
         </div>
-      </div>
-    ),
+      );
+    },
   },
 
-  /* 23 — Background 2: graph era & Bayesian approach + summary */
+  /* 9 — Probabilistic output & evaluation metrics */
+  {
+    section: "هدف پژوهش",
+    sectionNo: "۰۳",
+    title: "خروجی احتمالاتی و معیارها",
+    render: () => {
+      const outItems = [
+        mathFramework.groups[2].items.find((f) => f.id === "var")!,
+        mathFramework.groups[3].items.find((f) => f.id === "pi")!,
+      ];
+      return (
+        <div>
+          <SlideTitle sub="Probabilistic Output & Metrics">خروجی احتمالاتی و معیارهای ارزیابی</SlideTitle>
+          <div className="mb-2.5 grid grid-cols-1 gap-2 lg:grid-cols-2">
+            {outItems.map((f, i) => (
+              <SlideCard key={f.id} delay={i * 50} className="flex flex-col gap-1 p-2.5">
+                <p className="text-[0.66rem] font-black text-primary">{f.label}</p>
+                <Tex
+                  tex={f.tex}
+                  className="math-formula-compact rounded-lg bg-muted/45 px-2.5 py-1.5 text-[0.7rem]"
+                />
+                {f.desc && <p className="text-[0.58rem] leading-4 text-muted-foreground">{f.desc}</p>}
+              </SlideCard>
+            ))}
+          </div>
+          <p className="mb-1.5 text-[0.68rem] font-black text-muted-foreground">فرمول معیارهای ارزیابی:</p>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {[...goals.metrics.accuracy.items, ...goals.metrics.reliability.items].map((m, i) => (
+              <SlideCard key={m.name} delay={i * 40} className="flex flex-col gap-1 p-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span dir="ltr" className="ltr rounded-md bg-primary/12 px-2 py-0.5 text-[0.62rem] font-black text-primary">
+                    {m.name}
+                  </span>
+                  <span className="text-[0.58rem] font-semibold text-muted-foreground">{m.desc}</span>
+                </div>
+                <Tex tex={m.tex} className="math-formula-compact rounded-lg bg-muted/45 px-2 py-1 text-[0.64rem]" />
+              </SlideCard>
+            ))}
+          </div>
+        </div>
+      );
+    },
+  },
+
+  /* 10 — Background: compact timeline + conclusion */
   {
     section: "پیشینه پژوهش",
     sectionNo: "۰۴",
-    title: "پیشینه ۲ — ۲۰۱۸ تا امروز",
+    title: "پیشینه — خط زمانی",
     render: () => (
       <div>
-        <SlideTitle sub="Timeline 2018–Today">پیشینه پژوهش — عصر گراف و رویکرد بیزی</SlideTitle>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          {background.timeline.slice(5).map((t) => (
-            <div
-              key={`${t.year}-${t.title}`}
-              className={cn(
-                "rounded-xl border p-2.5",
-                t.kind === "fusion" ? "border-primary/45 bg-primary/8" : "border-border bg-card/60"
-              )}
-            >
-              <div className="mb-1 flex items-center gap-2.5">
-                <span
-                  className={cn(
-                    "shrink-0 rounded-lg px-2 py-0.5 text-[0.7rem] font-black tabular-nums-fa",
-                    t.kind === "fusion" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
-                  )}
-                >
-                  {t.year}
-                </span>
-                <div className="flex min-w-0 flex-col">
-                  <span className="text-[0.72rem] font-bold leading-5 text-foreground">{t.title}</span>
-                  <span className="text-[0.62rem] leading-4 text-muted-foreground">{t.cite}</span>
+        <SlideTitle sub="Research Timeline">پیشینه پژوهش — خط زمانی ۲۰۰۳ تا امروز</SlideTitle>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {background.timeline.map((t, i) => {
+            const isFusion = t.kind === "fusion";
+            return (
+              <SlideCard
+                key={`${t.year}-${t.title}`}
+                delay={Math.min(i * 30, 240)}
+                className={cn("flex flex-col gap-1 p-2.5", isFusion && "border-primary/45 bg-primary/8")}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    dir="rtl"
+                    className={cn(
+                      "shrink-0 rounded-lg px-2 py-0.5 text-[0.64rem] font-black tabular-nums-fa",
+                      isFusion ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
+                    )}
+                  >
+                    {t.year}
+                  </span>
+                  <span className="text-[0.66rem] font-bold leading-5 text-foreground">{t.title}</span>
                 </div>
-              </div>
-              <p className="text-[0.66rem] leading-[1.6] text-muted-foreground">{t.text}</p>
-            </div>
-          ))}
+                <p className="text-[0.58rem] leading-4 text-muted-foreground">{t.text}</p>
+              </SlideCard>
+            );
+          })}
         </div>
         <SlideCard className="mt-2.5 border-primary/40 bg-gradient-to-bl from-primary/10 to-accent/8">
           <p className="mb-1 flex items-center gap-2 text-xs font-black text-primary">
             <Icons.Lightbulb className="h-4 w-4 shrink-0" />
             {background.conclusion.title}
           </p>
-          <p className="text-[0.72rem] leading-6 text-foreground">{background.conclusion.text}</p>
+          <p className="text-[0.7rem] leading-6 text-foreground">{background.conclusion.text}</p>
         </SlideCard>
       </div>
     ),
   },
 
-  /* 24 — Chapter outline (with chapter contents) */
+  /* 11 — Chapter outline + roadmap (merged) */
   {
     section: "فصل‌بندی",
     sectionNo: "۰۵",
-    title: "فصل‌بندی پایان‌نامه",
+    title: "فصل‌بندی و نقشه راه",
     render: () => (
       <div>
-        <SlideTitle sub="Thesis Structure">فصل‌بندی پایان‌نامه</SlideTitle>
-        <SlideCard className="mb-2.5 border-primary/25 bg-primary/5">
-          <p className="text-[0.75rem] leading-6 text-muted-foreground">{chapters.lead}</p>
-        </SlideCard>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
+        <SlideTitle sub="Thesis Structure & Roadmap">فصل‌بندی پایان‌نامه و نقشه راه اجرا</SlideTitle>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {chapters.items.map((ch) => (
             <SlideCard
               key={ch.no}
-              className={cn("p-3", ch.status === "wip" && "border-dashed border-accent/60 bg-accent/5")}
+              className={cn("flex flex-col gap-1.5 p-2.5", ch.status === "wip" && "border-dashed border-accent/60 bg-accent/5")}
             >
-              <div className="mb-2 flex items-center justify-between gap-1.5">
+              <div className="flex items-center justify-between gap-1.5">
                 <span
                   className={cn(
-                    "rounded-lg px-2 py-0.5 text-[0.7rem] font-black",
+                    "rounded-lg px-2 py-0.5 text-[0.64rem] font-black",
                     ch.status === "wip" ? "bg-accent/20 text-accent-foreground" : "bg-primary text-primary-foreground"
                   )}
                 >
@@ -913,20 +536,20 @@ export const SLIDES: SlideDef[] = [
                 {ch.status === "wip" ? (
                   <WipBadge />
                 ) : (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/8 px-2 py-0.5 text-[0.6rem] font-bold text-primary">
-                    <Icons.CheckCircle2 className="h-3 w-3" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/8 px-2 py-0.5 text-[0.56rem] font-bold text-primary">
+                    <Icons.CheckCircle2 className="h-2.5 w-2.5" />
                     {ch.statusText}
                   </span>
                 )}
               </div>
-              <p className="mb-1.5 text-[0.72rem] font-black leading-5 text-foreground">{ch.title}</p>
-              <ul className="flex flex-col gap-1">
+              <p className="text-[0.68rem] font-black leading-5 text-foreground">{ch.title}</p>
+              <ul className="flex flex-col gap-0.5">
                 {ch.points.map((p) => (
-                  <li key={p} className="flex items-start gap-1.5 text-[0.66rem] leading-5 text-muted-foreground">
+                  <li key={p} className="flex items-start gap-1 text-[0.58rem] leading-4 text-muted-foreground">
                     {ch.status === "wip" ? (
-                      <Icons.CircleDashed className="mt-1 h-3 w-3 shrink-0 text-accent-foreground/70" />
+                      <Icons.CircleDashed className="mt-1 h-2.5 w-2.5 shrink-0 text-accent-foreground/70" />
                     ) : (
-                      <Icons.CheckCircle2 className="mt-1 h-3 w-3 shrink-0 text-primary" />
+                      <Icons.CheckCircle2 className="mt-1 h-2.5 w-2.5 shrink-0 text-primary" />
                     )}
                     {p}
                   </li>
@@ -935,60 +558,38 @@ export const SLIDES: SlideDef[] = [
             </SlideCard>
           ))}
         </div>
-      </div>
-    ),
-  },
-
-  /* 25 — Execution roadmap */
-  {
-    section: "فصل‌بندی",
-    sectionNo: "۰۵",
-    title: "نقشه راه اجرای پایان‌نامه",
-    render: () => (
-      <div>
-        <SlideTitle sub="Roadmap">نقشه راه اجرای پایان‌نامه</SlideTitle>
-        <div className="relative mx-auto flex max-w-2xl flex-col gap-2">
-          <div
-            aria-hidden
-            className="absolute bottom-4 right-[1.56rem] top-4 w-0.5 rounded-full bg-gradient-to-b from-primary/50 via-primary/30 to-accent/60"
-          />
+        <div className="mt-2.5 flex flex-wrap items-center justify-between gap-1.5 rounded-2xl border bg-card/70 px-3 py-2.5">
           {chapters.roadmap.milestones.map((m, i) => (
-            <SlideCard key={m.label} delay={i * 60} className="flex items-center gap-3 p-2.5">
-              <span
-                className={cn(
-                  "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2",
-                  m.highlight
-                    ? "border-accent bg-accent text-accent-foreground shadow-lg shadow-accent/25"
-                    : m.done
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-muted-foreground/40 bg-card text-muted-foreground"
-                )}
-              >
-                {m.highlight ? (
-                  <Icons.Flag className="h-3.5 w-3.5" />
-                ) : m.done ? (
-                  <Icons.CheckCircle2 className="h-3.5 w-3.5" />
-                ) : (
-                  <Icons.CircleDashed className="h-3.5 w-3.5" />
-                )}
-              </span>
-              <div className="flex min-w-0 flex-col">
-                <span className="tabular-nums-fa text-[0.8rem] font-black text-foreground" dir="rtl">
-                  {m.date}
+            <React.Fragment key={m.label}>
+              <div className="flex items-center gap-1.5">
+                <span
+                  className={cn(
+                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2",
+                    m.highlight
+                      ? "border-accent bg-accent text-accent-foreground"
+                      : m.done
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-muted-foreground/40 bg-card text-muted-foreground"
+                  )}
+                >
+                  {m.highlight ? <Icons.Flag className="h-3 w-3" /> : <Icons.CheckCircle2 className="h-3 w-3" />}
                 </span>
-                <span className="text-[0.7rem] leading-5 text-muted-foreground">{m.label}</span>
+                <div className="flex flex-col">
+                  <span className="tabular-nums-fa text-[0.62rem] font-black text-foreground" dir="rtl">{m.date}</span>
+                  <span className="text-[0.56rem] leading-4 text-muted-foreground">{m.label}</span>
+                </div>
               </div>
-              {m.highlight && (
-                <Badge className="mr-auto shrink-0 bg-accent text-accent-foreground">نقطه اوج</Badge>
+              {i < chapters.roadmap.milestones.length - 1 && (
+                <Icons.ChevronLeft className="hidden h-4 w-4 shrink-0 text-primary/40 sm:block" aria-hidden />
               )}
-            </SlideCard>
+            </React.Fragment>
           ))}
         </div>
       </div>
     ),
   },
 
-  /* 26 — References */
+  /* 12 — References (compact) */
   {
     section: "مراجع",
     sectionNo: "۰۶",
@@ -998,7 +599,7 @@ export const SLIDES: SlideDef[] = [
         <SlideTitle sub="References">مراجع</SlideTitle>
         <SlideCard className="mb-2 border-primary/40 bg-primary/8 p-3">
           <p className="mb-1 text-xs font-black text-primary">{references.primary.label}</p>
-          <div dir="ltr" className="ltr text-left text-[0.7rem] leading-5 text-foreground">
+          <div dir="ltr" className="ltr text-left text-[0.68rem] leading-5 text-foreground">
             <span className="font-semibold">{references.primary.items[0].authors} ({references.primary.items[0].year})</span>{" "}
             “{references.primary.items[0].title},” <span className="italic">{references.primary.items[0].source}</span>
           </div>
@@ -1006,7 +607,7 @@ export const SLIDES: SlideDef[] = [
         <div className="grid grid-cols-1 gap-1.5 md:grid-cols-2 lg:grid-cols-3">
           {references.secondary.items.map((r, i) => (
             <div key={i} dir="ltr" className="ltr rounded-lg border bg-card/60 p-2.5 text-left">
-              <p className="text-[0.64rem] leading-[1.55] text-muted-foreground">
+              <p className="text-[0.62rem] leading-[1.55] text-muted-foreground">
                 <span className="font-bold text-primary">[{i + 1}]</span> {r.authors} {r.year && `(${r.year})`} “{r.title},” <span className="italic">{r.source}</span>
               </p>
             </div>
@@ -1016,7 +617,7 @@ export const SLIDES: SlideDef[] = [
     ),
   },
 
-  /* 27 — Thanks */
+  /* 13 — Thanks */
   {
     section: "پایان",
     sectionNo: "",

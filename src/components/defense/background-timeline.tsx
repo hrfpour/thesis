@@ -4,8 +4,7 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
 import { Section, SectionHeading, RevealCard } from "@/components/defense/section-heading";
-import { Figure } from "@/components/defense/figure";
-import { background, fig } from "@/lib/defense-data";
+import { background } from "@/lib/defense-data";
 import { cn } from "@/lib/utils";
 
 const KIND_STYLE: Record<string, { dot: string; text: string; label: string }> = {
@@ -34,70 +33,47 @@ export function BackgroundSection() {
         ))}
       </div>
 
-      {/* Vertical timeline */}
-      <div className="relative mb-12">
-        <div
-          aria-hidden
-          className="absolute bottom-6 right-[0.5625rem] top-6 w-0.5 bg-gradient-to-b from-muted-foreground/40 via-primary/50 to-accent sm:right-[0.6875rem]"
-        />
-
-        <div className="flex flex-col gap-5">
-          {background.timeline.map((t, i) => {
-            const kind = KIND_STYLE[t.kind] ?? KIND_STYLE.stat;
-            const isHighlight = t.kind === "fusion";
-            return (
-              <motion.div
-                key={`${t.year}-${t.title}`}
-                initial={{ opacity: 0, x: 26 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.45, delay: Math.min(i * 0.04, 0.3) }}
-                className="relative flex gap-4 sm:gap-5"
-              >
-                <div className="relative z-10 flex w-5 shrink-0 flex-col items-center pt-1 sm:w-6">
-                  <span
-                    className={cn(
-                      "mt-1 h-[0.9rem] w-[0.9rem] shrink-0 rounded-full border-[3px] border-background sm:h-4 sm:w-4",
-                      kind.dot,
-                      isHighlight && "ring-4 ring-primary/20"
-                    )}
-                  />
-                </div>
-
-                <div
+      {/* Compact timeline grid */}
+      <div className="relative mb-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {background.timeline.map((t, i) => {
+          const kind = KIND_STYLE[t.kind] ?? KIND_STYLE.stat;
+          const isHighlight = t.kind === "fusion";
+          return (
+            <motion.div
+              key={`${t.year}-${t.title}`}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: Math.min(i * 0.04, 0.25) }}
+              className={cn(
+                "rounded-2xl border bg-card/70 p-4 backdrop-blur-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-primary/10",
+                isHighlight ? "border-primary/45 bg-primary/6" : "border-border hover:border-primary/30"
+              )}
+            >
+              <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                <span
                   className={cn(
-                    "flex-1 rounded-2xl border bg-card/70 p-4 backdrop-blur-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-primary/10 sm:p-5",
-                    isHighlight ? "border-primary/45 bg-primary/6" : "border-border hover:border-primary/30"
+                    "rounded-lg px-2.5 py-0.5 text-sm font-black",
+                    isHighlight ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
                   )}
+                  dir="rtl"
                 >
-                  <div className="mb-1.5 flex flex-wrap items-center gap-2">
-                    <span
-                      className={cn(
-                        "rounded-lg px-2.5 py-0.5 text-sm font-black",
-                        isHighlight ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
-                      )}
-                      dir="rtl"
-                    >
-                      {t.year}
-                    </span>
-                    <h4 className="text-sm font-bold text-foreground sm:text-base">{t.title}</h4>
-                    {isHighlight && (
-                      <Icons.Star className="h-4 w-4 fill-primary text-primary" aria-hidden />
-                    )}
-                  </div>
-                  <p className="text-[0.82rem] leading-7 text-muted-foreground">{t.text}</p>
-                  <span className={cn("mt-2 inline-block text-[0.7rem] font-medium", kind.text)}>
-                    {t.cite}
-                  </span>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+                  {t.year}
+                </span>
+                <h4 className="text-[0.88rem] font-bold text-foreground">{t.title}</h4>
+                {isHighlight && (
+                  <Icons.Star className="h-4 w-4 fill-primary text-primary" aria-hidden />
+                )}
+              </div>
+              <p className="text-[0.78rem] leading-6 text-muted-foreground">{t.text}</p>
+              <span className={cn("mt-1.5 inline-flex items-center gap-1.5 text-[0.68rem] font-medium", kind.text)}>
+                <span className={cn("h-2 w-2 rounded-full", kind.dot)} aria-hidden />
+                {t.cite}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
-
-      {/* Figure 6 — advanced new-wave architecture */}
-      <Figure data={fig.architecture} mode="diagram" className="mx-auto mb-12 max-w-4xl" />
 
       {/* Novel contribution */}
       <motion.div

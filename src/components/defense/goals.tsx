@@ -155,13 +155,14 @@ export function GoalSection() {
         <ArchitectureDiagram />
       </div>
 
-      {/* Figures 4 & 5 — graph representation and STGNN modeling pipeline */}
-      <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Figure data={fig.graph} mode="diagram" />
-        <Figure data={fig.stgnn} mode="diagram" delay={0.08} />
+      {/* Figures 4, 5 & 6 — graph, STGNN pipeline and new-wave architecture */}
+      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <Figure data={fig.graph} mode="diagram" compact />
+        <Figure data={fig.stgnn} mode="diagram" delay={0.06} compact />
+        <Figure data={fig.architecture} mode="diagram" delay={0.12} compact />
       </div>
 
-      <div className="mb-12 flex items-start gap-2.5 rounded-xl border border-accent/50 bg-accent/10 p-4">
+      <div className="mb-10 flex items-start gap-2.5 rounded-xl border border-accent/50 bg-accent/10 p-4">
         <Icons.FlaskConical className="mt-0.5 h-4.5 w-4.5 shrink-0 text-accent-foreground" />
         <div className="flex flex-col gap-1">
           <p className="text-xs font-bold text-accent-foreground">در دست تکمیل</p>
@@ -176,9 +177,9 @@ export function GoalSection() {
           {mathFramework.en}
         </span>
       </h3>
-      <p className="mb-6 max-w-3xl text-sm leading-8 text-muted-foreground">{mathFramework.lead}</p>
+      <p className="mb-5 max-w-3xl text-sm leading-8 text-muted-foreground">{mathFramework.lead}</p>
 
-      <div className="mb-12 flex flex-col gap-8">
+      <div className="mb-10 flex flex-col gap-6">
         {mathFramework.groups.map((g, gi) => (
           <div key={g.id}>
             <motion.h4

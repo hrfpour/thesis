@@ -17,12 +17,12 @@ export function IntroSection() {
     <Section id={intro.id}>
       <SectionHeading no={intro.no} title={intro.title} en={intro.en} icon={intro.icon} />
 
-      <RevealCard className="mb-10 border-primary/25 bg-primary/5">
+      <RevealCard className="mb-6 border-primary/25 bg-primary/5">
         <p className="text-base leading-8 text-foreground sm:text-lg sm:leading-9">{intro.lead}</p>
       </RevealCard>
 
       {/* Importance of traffic forecasting */}
-      <RevealCard className="mb-8">
+      <RevealCard className="mb-6">
         <h3 className="mb-3 flex items-center gap-2 text-lg font-bold text-foreground">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/12 text-primary">
             <LucIcon name="TrafficCone" />
@@ -48,13 +48,13 @@ export function IntroSection() {
       </RevealCard>
 
       {/* Thematic images: traffic flow and control center */}
-      <div className="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Figure data={fig.night} mode="photo" />
         <Figure data={fig.control} mode="photo" delay={0.08} />
       </div>
 
       {/* Nature of traffic data */}
-      <RevealCard className="mb-10">
+      <RevealCard className="mb-6">
         <h3 className="mb-3 flex items-center gap-2 text-lg font-bold text-foreground">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/12 text-primary">
             <LucIcon name="Map" />
@@ -79,9 +79,9 @@ export function IntroSection() {
 
       {/* Key concepts */}
       <h3 className="mb-4 text-lg font-bold text-foreground">{intro.concepts.title}</h3>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
         {intro.concepts.items.map((c, i) => (
-          <RevealCard key={c.term} delay={i * 0.05} className="p-5">
+          <RevealCard key={c.term} delay={i * 0.04} className="p-4">
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-primary" aria-hidden />
@@ -91,7 +91,7 @@ export function IntroSection() {
                 {c.en}
               </span>
             </div>
-            <p className="text-[0.83rem] leading-7 text-muted-foreground">{c.def}</p>
+            <p className="text-[0.8rem] leading-6 text-muted-foreground">{c.def}</p>
           </RevealCard>
         ))}
       </div>
